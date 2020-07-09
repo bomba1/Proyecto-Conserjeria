@@ -15,13 +15,10 @@ class CreatePersonasTable extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
-            // TODO: Add the unique property
-            $table->string("rut");
+            $table->string("rut")->unique();
             $table->string("name");
             $table->string("phone");
-            // TODO: Add the unique property
-            $table->string("email");
-
+            $table->string("email")->unique();
             $table->timestamps();
         });
     }
