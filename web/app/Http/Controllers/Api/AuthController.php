@@ -21,35 +21,28 @@ class AuthController extends Controller
     public function register(Request $request){
         $data = $request->all();
 
-        //The rules of validation
         $validator = Validator::make($data, [
-            'name' => 'required|min:3|max:255',
-            'email' => 'email:rfc,dns|required|unique:users',
-            'password' => 'required|min:8|max:255|confirmed'
+            'name' => 'required|max:50',
+            'email' => 'email|required|unique:users',
+            'password' => 'required|confirmed'
         ]);
 
-        //Returns error 412 if validation fails
         if ($validator->fails()) {
             return response([
-                'error' => 'Validation Error' ,
-                'message' => $validator->errors(),
-            ], 412);
+                'error' => $validator->errors(),
+                'message' => 'Validation Error'
+            ]);
         }
 
-        //Apply bcrypt to password(very secure)
         $data['password'] = bcrypt($request->password);
 
-        // Insert the user into the database
         $user = User::create($data);
 
-        // Token created from user
-        $authToken = $user->createToken('authToken');
+        $accessToken = $user->createToken('authToken')->accessToken;
 
-        //Return the token to the user
         return response([
             'user' => $user,
-            'token' => $authToken->accessToken,
-            'token_expires_at'=> $authToken->token->expires_at,
+            'access_token' => $accessToken
         ]);
     }
 
@@ -59,8 +52,6 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request) {
-
-        // All the data from the request
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -68,41 +59,25 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        // Fail: // Error 412
         if ($validator->fails()) {
             return response([
-                'error' => 'Validation Error',
-                'message' => $validator->errors(),
-            ], 412);
+                'error' => $validator->errors(),
+                'message' => 'Validation Error'
+            ]);
         }
 
-        // Fail: 401 Unauthorized
         if (!auth()->attempt($data)) {
             return response([
-                'error' => 'Invalid Credentials',
-                'message' => 'Unauthorized, wrong email or password',
-            ],401);
+                'message' => 'Invalid Credentials'
+            ]);
         }
 
-        $authToken = auth()->user()->createToken('authToken');
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
         return response([
             'user' => auth()->user(),
-            'token' => $authToken->accessToken,
-            'token_expires_at' => $authToken->token->expires_at,
+            'access_token' => $accessToken
         ]);
 
-    }
-
-    /**
-     * Logout user(revoke token).
-     * @param Request $request
-     */
-    public function logout(Request $request){
-        $request->user()->token()->revoke();
-
-        return response([
-            'message' => 'Succesfully logged out'
-        ]);
     }
 }
