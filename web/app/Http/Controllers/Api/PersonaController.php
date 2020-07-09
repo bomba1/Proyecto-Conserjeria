@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PersonaStoreRequest;
+use App\Http\Requests\PersonaUpdateRequest;
 use App\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PersonaController extends Controller
 {
@@ -24,7 +27,7 @@ class PersonaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PersonaStoreRequest $request)
     {
         //
     }
@@ -47,9 +50,26 @@ class PersonaController extends Controller
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Persona $persona)
+    public function update(PersonaUpdateRequest $request, Persona $persona)
     {
-        //
+        // Validacion adicional para que el unique del correo no afecte a si mismo.
+        // Pendiente validar si funciona.
+        $validator = Validator::make($request->all(), [
+            'email' => [
+                'required',
+                Rule::unique('personas')->ignore($persona),
+            ]
+        ]);
+
+        if($validator->fails()) {
+            return response([
+                'message' => 'Rut ya en uso',
+                'error' => $validator->errors(),
+            ],412);
+        }
+
+        // Update
+
     }
 
     /**
