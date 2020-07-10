@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PersonaStoreRequest;
 use App\Http\Requests\PersonaUpdateRequest;
+use App\Http\Resources\PersonaResource;
 use App\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -16,9 +17,15 @@ class PersonaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // Muestra la lista de Personas
     public function index()
     {
-        //
+        // SELECT * FROM personas
+        $personas = Persona::orderBy('id','DESC');
+        return response([
+            'message' => 'Retrieved Successfully',
+            'personas' => PersonaResource::collection($personas),
+        ]);
     }
 
     /**
