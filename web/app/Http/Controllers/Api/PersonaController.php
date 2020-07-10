@@ -97,6 +97,9 @@ class PersonaController extends Controller
      */
     public function destroy(Persona $persona)
     {
-        //
+        $persona->delete();
+        return response([
+            'message' => 'Deleted',
+        ],202);
     }
 }
