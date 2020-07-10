@@ -11,14 +11,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+/**
+ * Class PersonaController
+ * @package App\Http\Controllers\Api
+ */
 class PersonaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of persons.
      *
      * @return \Illuminate\Http\Response
      */
-    // Muestra la lista de Personas
     public function index()
     {
         // SELECT * FROM personas
@@ -30,9 +33,9 @@ class PersonaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Storing a validated person in the database.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param PersonaStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(PersonaStoreRequest $request)
@@ -48,7 +51,7 @@ class PersonaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified person.
      *
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
@@ -62,10 +65,10 @@ class PersonaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a validated person in the database.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Persona  $persona
+     * @param PersonaUpdateRequest $request
+     * @param Persona $persona
      * @return \Illuminate\Http\Response
      */
     public function update(PersonaUpdateRequest $request, Persona $persona)
@@ -91,7 +94,7 @@ class PersonaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified person from storage.
      *
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response

@@ -4,6 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Validations for storage of person.
+ *
+ * Class PersonaStoreRequest
+ * @package App\Http\Requests
+ */
 class PersonaStoreRequest extends FormRequest
 {
     /**
@@ -32,6 +38,11 @@ class PersonaStoreRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get the messages to send when a validation error occur
+     *
+     * @return array|string[]
+     */
     public function messages()
     {
         return [

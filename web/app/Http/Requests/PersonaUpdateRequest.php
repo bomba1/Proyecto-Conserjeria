@@ -4,6 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Validations for update of person.
+ *
+ * Class PersonaUpdateRequest
+ * @package App\Http\Requests
+ */
 class PersonaUpdateRequest extends FormRequest
 {
     /**
@@ -30,6 +36,11 @@ class PersonaUpdateRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get the messages to send when a validation error occur
+     *
+     * @return array|string[]
+     */
     public function messages()
     {
         return [
