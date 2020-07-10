@@ -54,7 +54,10 @@ class PersonaController extends Controller
      */
     public function show(Persona $persona)
     {
-        //
+        return response([
+            'message' => 'Retrieved Successfully',
+            'persona' => new PersonaResource($persona),
+        ],200);
     }
 
     /**
