@@ -8,7 +8,7 @@ use App\Http\Requests\PersonaUpdateRequest;
 use App\Http\Resources\PersonaResource;
 use App\Persona;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class PersonaController extends Controller
 {
@@ -31,12 +31,19 @@ class PersonaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(PersonaStoreRequest $request)
     {
-        //
+        // All the data in the request
+        $personas = Persona::create($request->all());
+        $personas->save();
+
+        return response([
+            'message' => 'Created Successfully',
+            'persona' => new PersonaResource($personas),
+        ],201);
     }
 
     /**
