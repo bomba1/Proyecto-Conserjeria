@@ -82,15 +82,19 @@ class PersonaController extends Controller
             ]
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response([
                 'message' => 'Rut ya en uso',
                 'error' => $validator->errors(),
-            ],412);
+            ], 412);
         }
 
         // Update
+        $persona->update($request->all());
 
+        return response([
+            'message' => 'Updated Successfully',
+        ], 202);
     }
 
     /**
