@@ -28,7 +28,7 @@ class PersonaStoreRequest extends FormRequest
             'rut' => 'required|unique:personas,rut|regex:/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/',
             'name' => 'required',
             'phone' => 'numeric|between:40000000,99999999',
-            'email' => 'required|email|unique:personas,email',
+            'email' => 'required|email:rfc,dns|unique:personas,email',
         ];
     }
 

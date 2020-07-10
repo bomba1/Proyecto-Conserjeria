@@ -9,6 +9,7 @@ use App\Http\Resources\PersonaResource;
 use App\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class PersonaController extends Controller
 {

@@ -25,7 +25,7 @@ class PersonaUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
-            'email' => 'required|email|unique:personas,email',
+            'email' => 'required|email:rfc,dns',
             'phone' =>'numeric|between:40000000,99999999',
         ];
     }
@@ -37,7 +37,6 @@ class PersonaUpdateRequest extends FormRequest
             'name.regex' => 'Formato de nombre inválido',
             'email.required'  => 'Se necesita un correo',
             'email.email'  => 'El correo no es válido',
-            'email.unique'  => 'El correo ya se encuentra en uso.',
             'phone.numeric' =>'El teléfono debe ser un número',
             'phone.between' =>'El teléfono indicado no existe',
         ];
