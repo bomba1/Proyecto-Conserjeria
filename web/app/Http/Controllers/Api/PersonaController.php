@@ -40,13 +40,16 @@ class PersonaController extends Controller
      */
     public function store(PersonaStoreRequest $request)
     {
+        //TODO: hacer validacion para rut unico considerando k mayuscula o minuscula(sqlite es case sensitive)
+
+        //TODO: ingresar el rut con k mayuscula si aplica
         // All the data in the request
-        $personas = Persona::create($request->all());
-        $personas->save();
+        $persona = Persona::create($request->all());
+        $persona->save();
 
         return response([
             'message' => 'Created Successfully',
-            'persona' => new PersonaResource($personas),
+            'persona' => new PersonaResource($persona),
         ],201);
     }
 
