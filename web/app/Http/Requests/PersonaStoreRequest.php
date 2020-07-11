@@ -50,7 +50,7 @@ class PersonaStoreRequest extends FormRequest
         return [
             'rut.required' => 'Se necesita un rut',
             'rut.cl_rut' => 'El rut no es válido',
-            'rut.regex' => 'El formato del rut es con puntos y guion',
+            'rut.regex' => 'El formato del rut no es valido',
             'rut.unique' => 'Este rut ya esta en uso',
             'name.required'  => 'Se necesita un nombre',
             'phone.required' =>'El teléfono debe ser completado',
@@ -69,12 +69,11 @@ class PersonaStoreRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        //TODO: pendiente validar si funciona.
         throw new HttpResponseException(
             response()->json([
                 'message' => 'Validation Error',
                 'error' => $validator->errors()->all()
-            ], 422)
+            ], 412)
         );
     }
 }

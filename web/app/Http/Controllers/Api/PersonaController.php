@@ -10,6 +10,7 @@ use App\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class PersonaController
@@ -25,10 +26,11 @@ class PersonaController extends Controller
     public function index()
     {
         // SELECT * FROM personas
-        $personas = Persona::orderBy('id','DESC');
+        $persona = Persona::orderBy('personas','ASC')->get();
+
         return response([
             'message' => 'Retrieved Successfully',
-            'personas' => PersonaResource::collection($personas),
+            'personas' => $persona,
         ]);
     }
 
@@ -77,7 +79,6 @@ class PersonaController extends Controller
     public function update(PersonaUpdateRequest $request, Persona $persona)
     {
         // Validacion adicional para que el unique del correo no afecte a si mismo.
-        // Pendiente validar si funciona.
         $validator = Validator::make($request->all(), [
             'email' => [
                 'required',
@@ -93,7 +94,9 @@ class PersonaController extends Controller
         }
 
         // Update
-        $persona->update($request->all());
+        $persona->fill($request->all());
+
+        $persona->save();
 
         return response([
             'message' => 'Updated Successfully',

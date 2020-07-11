@@ -61,12 +61,11 @@ class PersonaUpdateRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        //TODO: pendiente validar si funciona.
         throw new HttpResponseException(
             response()->json([
                 'message' => 'Validation Error',
                 'error' => $validator->errors()->all()
-            ], 422)
+            ], 412)
         );
     }
 }
