@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 /**
  * Validations for update of person.
@@ -30,7 +32,7 @@ class PersonaUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
+            'name' => 'regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
             'email' => 'required|email:rfc,dns',
             'phone' =>'numeric|between:40000000,99999999',
         ];
@@ -44,12 +46,27 @@ class PersonaUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'El campo nombre es obligatorio.',
             'name.regex' => 'Formato de nombre inválido',
             'email.required'  => 'Se necesita un correo',
             'email.email'  => 'El correo no es válido',
             'phone.numeric' =>'El teléfono debe ser un número',
             'phone.between' =>'El teléfono indicado no existe',
         ];
+    }
+
+    /**
+     * FailedValidation [Overriding the event validator for custom error response].
+     *
+     * @param Validator $validator
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        //TODO: pendiente validar si funciona.
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'Validation Error',
+                'error' => $validator->errors()->all()
+            ], 422)
+        );
     }
 }
