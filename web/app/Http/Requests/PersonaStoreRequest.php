@@ -33,7 +33,7 @@ class PersonaStoreRequest extends FormRequest
     {
         //TODO: validacion del digito verificador
         return [
-            'rut' => 'required|unique:personas,rut|regex:/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/',
+            'rut' => 'required|cl_rut|unique:personas,rut|regex:/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/',
             'name' => 'required|regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
             'phone' => 'required|numeric|between:40000000,99999999',
             'email' => 'required|email:rfc,dns|unique:personas,email',
@@ -49,6 +49,7 @@ class PersonaStoreRequest extends FormRequest
     {
         return [
             'rut.required' => 'Se necesita un rut',
+            'rut.cl_rut' => 'El rut no es válido',
             'rut.regex' => 'El formato del rut es con puntos y guion',
             'rut.unique' => 'Este rut ya esta en uso',
             'name.required'  => 'Se necesita un nombre',
