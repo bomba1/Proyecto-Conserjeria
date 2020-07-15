@@ -24,7 +24,23 @@ class AuthLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'email' => 'email:rfc,dns|required',
+            'password' => 'required'
         ];
     }
+
+    /**
+     * Get the messages to send when a validation error occur.
+     *
+     * @return array|string[]
+     */
+    public function messages()
+    {
+        return [
+            'email.required'  => 'Se necesita un correo',
+            'email.email'  => 'El correo no es válido',
+            'password.required'  => 'Se necesita una contraseña',
+        ];
+    }
+
 }
