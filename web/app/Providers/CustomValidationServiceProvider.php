@@ -54,6 +54,30 @@ class CustomValidationServiceProvider extends ServiceProvider
         });
 
         //2.- Validacion del email en update(Update)
+        Validator::extend('unique_email_update', function ($attribute, $value, $parameters, $validator) {
+            $email = $value;
+            $rut = $parameters[0];
 
+            //Si el email no esta en uso, retorna true.
+            $contar_emails = Persona::where('email',$email)->count();
+            if($contar_emails == 0)
+                return true;
+
+            //Si el email es encontrado, verificamos si es de la persona que hace el cambio.
+            $rut_email = Persona::find('email',$email)->first()->rut;
+
+            if ($rut_email == $rut) {
+                return true;
+            }else {
+                return false;
+            }
+
+        });
+
+        Validator::replacer('unique_email_update', function($message, $attribute, $rule, $parameters) {
+            return str_replace(':attribute', $attribute, $message == 'validation.unique_email_update'
+                ? 'El email ya esta en uso.'
+                : $message);
+        });
     }
 }

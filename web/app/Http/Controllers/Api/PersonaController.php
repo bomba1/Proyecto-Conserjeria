@@ -84,21 +84,6 @@ class PersonaController extends Controller
      */
     public function update(PersonaUpdateRequest $request, Persona $persona)
     {
-        // Validacion adicional para que el unique del correo no afecte a si mismo.
-        $validator = Validator::make($request->all(), [
-            'email' => [
-                'required',
-                Rule::unique('personas')->ignore($persona),
-            ]
-        ]);
-
-        if ($validator->fails()) {
-            return response([
-                'message' => 'Rut ya en uso',
-                'error' => $validator->errors(),
-            ], 412);
-        }
-
         // Update
         $persona->fill($request->all());
 
