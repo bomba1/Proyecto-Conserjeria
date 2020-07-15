@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Freshwork\ChileanBundle\Rut;
 
 /**
  * Class PersonaController
@@ -42,11 +43,25 @@ class PersonaController extends Controller
      */
     public function store(PersonaStoreRequest $request)
     {
-        //TODO: hacer validacion para rut unico considerando k mayuscula o minuscula(sqlite es case sensitive)
+        //Separamos los primeros 8 numeros y el digito verificador en variables distintas
+        list($numero, $digitoVerificador) = explode('-', $request->rut);
 
-        //TODO: ingresar el rut con k mayuscula si aplica
-        // All the data in the request
+        //Si el digito verificador es k minuscula, se reemplaza por k mayuscula y se ve si ya existe en la base de datos
+        //Sino se devuelve el rut a su estado original
+        if ($digitoVerificador == 'k') {
+            $numero = $numero.'-K';
+            if (DB::table('personas')->where('rut', $numero)->exists()) {
+                return response([
+                    'message' => 'Este Rut ya esta en uso',
+                ], 412);
+            }
+        } else {
+            $numero = $numero.'-'.$digitoVerificador;
+        }
+
+        $rut = $numero;
         $persona = Persona::create($request->all());
+        $persona->rut = $rut;
         $persona->save();
 
         return response([
