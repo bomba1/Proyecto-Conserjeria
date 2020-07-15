@@ -64,7 +64,8 @@ class CustomValidationServiceProvider extends ServiceProvider
                 return true;
 
             //Si el email es encontrado, verificamos si es de la persona que hace el cambio.
-            $rut_email = Persona::find('email',$email)->first()->rut;
+            $persona = Persona::where('email',$email)->first();
+            $rut_email = $persona->rut;
 
             if ($rut_email == $rut) {
                 return true;
