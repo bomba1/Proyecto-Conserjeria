@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthLoginRequest;
+use App\Http\Requests\AuthRegisterRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +20,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request){
+    public function register(AuthRegisterRequest $request){
         $data = $request->all();
 
         //The rules of validation
@@ -58,7 +60,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request) {
+    public function login(AuthLoginRequest $request) {
 
         // All the data from the request
         $data = $request->all();

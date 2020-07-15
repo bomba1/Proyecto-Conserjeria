@@ -47,6 +47,7 @@ class AuthRegisterRequest extends FormRequest
             'password.required'  => 'Se necesita una contraseña',
             'password.min'  => 'Se necesita un mínimo de 3 caracteres en la contraseña',
             'password.max'  => 'Se necesita un máximo de 255 caracteres en la contraseña',
+            'password.confirmed'  => 'Se debe confirmar la contraseña',
         ];
     }
 
