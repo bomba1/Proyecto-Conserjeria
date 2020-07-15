@@ -7,7 +7,6 @@ use App\Http\Requests\AuthLoginRequest;
 use App\Http\Requests\AuthRegisterRequest;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * Class AuthController
@@ -17,26 +16,11 @@ class AuthController extends Controller
 {
     /**
      * Register an User into the system
-     * @param Request $request
+     * @param AuthRegisterRequest $request
      * @return \Illuminate\Http\Response
      */
     public function register(AuthRegisterRequest $request){
         $data = $request->all();
-
-        //The rules of validation
-        $validator = Validator::make($data, [
-            'name' => 'required|min:3|max:255',
-            'email' => 'email:rfc,dns|required|unique:users',
-            'password' => 'required|min:8|max:255|confirmed'
-        ]);
-
-        //Returns error 412 if validation fails
-        if ($validator->fails()) {
-            return response([
-                'error' => 'Validation Error' ,
-                'message' => $validator->errors(),
-            ], 412);
-        }
 
         //Apply bcrypt to password(very secure)
         $data['password'] = bcrypt($request->password);
@@ -57,26 +41,13 @@ class AuthController extends Controller
 
     /**
      * Do the login, returning the access token.
-     * @param Request $request
+     * @param AuthLoginRequest $request
      * @return \Illuminate\Http\Response
      */
     public function login(AuthLoginRequest $request) {
 
         // All the data from the request
         $data = $request->all();
-
-        $validator = Validator::make($data, [
-            'email' => 'email|required',
-            'password' => 'required'
-        ]);
-
-        // Fail: // Error 412
-        if ($validator->fails()) {
-            return response([
-                'error' => 'Validation Error',
-                'message' => $validator->errors(),
-            ], 412);
-        }
 
         // Fail: 401 Unauthorized
         if (!auth()->attempt($data)) {
@@ -104,7 +75,7 @@ class AuthController extends Controller
         $request->user()->token()->revoke();
 
         return response([
-            'message' => 'Succesfully logged out'
+            'message' => 'Successfully logged out'
         ]);
     }
 }
