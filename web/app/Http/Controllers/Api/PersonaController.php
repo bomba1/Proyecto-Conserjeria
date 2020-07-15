@@ -7,11 +7,8 @@ use App\Http\Requests\PersonaStoreRequest;
 use App\Http\Requests\PersonaUpdateRequest;
 use App\Http\Resources\PersonaResource;
 use App\Persona;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
-use Freshwork\ChileanBundle\Rut;
 
 /**
  * Class PersonaController
@@ -27,7 +24,7 @@ class PersonaController extends Controller
     public function index()
     {
         // SELECT * FROM personas
-        $persona = Persona::orderBy('personas','ASC')->get();
+        $persona = Persona::orderBy('id','ASC')->get();
 
         return response([
             'message' => 'Retrieved Successfully',
@@ -46,22 +43,16 @@ class PersonaController extends Controller
         //Separamos los primeros 8 numeros y el digito verificador en variables distintas
         list($numero, $digitoVerificador) = explode('-', $request->rut);
 
-        //Si el digito verificador es k minuscula, se reemplaza por k mayuscula y se ve si ya existe en la base de datos
-        //Sino se devuelve el rut a su estado original
+        //Se reemplaza la k minuscula con K mayuscula
         if ($digitoVerificador == 'k') {
             $numero = $numero.'-K';
-            if (DB::table('personas')->where('rut', $numero)->exists()) {
-                return response([
-                    'message' => 'Este Rut ya esta en uso',
-                ], 412);
-            }
-        } else {
+        }else {
             $numero = $numero.'-'.$digitoVerificador;
         }
 
-        $rut = $numero;
+        //Se guarda la persona en la base de datos
         $persona = Persona::create($request->all());
-        $persona->rut = $rut;
+        $persona->rut = $numero;
         $persona->save();
 
         return response([
