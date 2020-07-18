@@ -17,6 +17,7 @@ class CreateComunidadesTable extends Migration
             $table->id();
             $table->string("nombre");
             $table->string("direccion");
+            $table->enum('tipo',['CONDOMINIO','EDIFICIO']);
             $table->timestamps();
         });
     }

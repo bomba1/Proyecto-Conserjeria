@@ -9,7 +9,7 @@ class Comunidad extends Model
     protected $table = 'comunidades';
 
     protected $fillable = [
-        "nombre","direccion"
+        "nombre","direccion","tipo"
     ];
 
     protected $hidden = [
