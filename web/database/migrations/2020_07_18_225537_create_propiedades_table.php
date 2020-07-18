@@ -20,7 +20,11 @@ class CreatePropiedadesTable extends Migration
             $table->timestamps();
 
             // Claves foraneas
-            $table->foreignId('id_comunidad');
+            $table->foreignId('comunidad_id');
+
+            $table->foreign('comunidad_id')->references('id')->on('comunidades')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

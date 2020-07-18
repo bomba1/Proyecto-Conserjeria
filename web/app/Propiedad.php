@@ -9,7 +9,7 @@ class Propiedad extends Model
     protected $table = 'propiedades';
 
     protected $fillable = [
-        "numero","id_comunidad","tipo"
+        "numero","comunidad_id","tipo"
     ];
 
     protected $hidden = [

@@ -19,8 +19,15 @@ class CreateVisitasTable extends Migration
             $table->timestamps();
 
             // Claves foraneas
-            $table->foreignId('id_persona');
-            $table->foreignId('id_propiedad');
+            $table->foreignId('persona_id');
+            $table->foreignId('propiedad_id');
+
+            $table->foreign('persona_id')->references('id')->on('personas')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('propiedad_id')->references('id')->on('propiedades')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
