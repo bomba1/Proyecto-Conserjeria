@@ -15,4 +15,8 @@ class Comunidad extends Model
     protected $hidden = [
         'updated_at', 'created_at'
     ];
+
+    public function propiedades(){
+        return $this->hasMany(Propiedad::class,'comunidad_id');
+    }
 }
