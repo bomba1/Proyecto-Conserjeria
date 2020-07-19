@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\VisitaResource;
+use App\Propiedad;
 use App\Visita;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,13 @@ class VisitaController extends Controller
      */
     public function index()
     {
-        //
+        // SELECT * FROM visitas
+        $visitas = Visita::orderBy('fecha','ASC')->get();
+
+        return response([
+            'message' => 'Retrieved Successfully',
+            'visitas' => $visitas,
+        ],200);
     }
 
     /**
@@ -26,7 +34,13 @@ class VisitaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Se crea la visita
+        $visita = Visita::create($request->all());
+
+        return response([
+            'message' => 'Created Successfully',
+            'persona' => new VisitaResource($visita),
+        ],201);
     }
 
     /**
@@ -35,9 +49,17 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function show(Visita $visita)
+    public function show($numero)
     {
-        //
+        // TODO: revisar si se obtienen las visitas.
+        // Obtenemos las visitas a este numero de propiedad.
+        $id_propiedad = Propiedad::where('numero',$numero)->first()->id;
+        $visitas = Visita::where('propiedad_id',$id_propiedad)->get();
+
+        return response([
+            'message' => 'Retrieved Successfully',
+            'visitas' => $visitas,
+        ],200);
     }
 
     /**

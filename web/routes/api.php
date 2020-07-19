@@ -23,9 +23,9 @@ Route::post('/login','Api\AuthController@login');
 
 Route::get('/logout','Api\AuthController@logout')->middleware('auth:api');
 
-Route::apiResource('/comunidades','Api\ComunidadController')->middleware('auth:api');
-Route::apiResource('/personas','Api\PersonaController')->middleware('auth:api');
-Route::apiResource('/propiedades','Api\PropiedadController')->middleware('auth:api');
-Route::apiResource('/registro','Api\VisitaController')->middleware('auth:api');
+Route::apiResource('/comunidades','Api\ComunidadController');
+Route::apiResource('/personas','Api\PersonaController');
+Route::apiResource('/propiedades','Api\PropiedadController');
+Route::apiResource('/registro','Api\VisitaController');
 
 
