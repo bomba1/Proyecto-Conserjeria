@@ -57,6 +57,8 @@ enum TipoComunidad {
 
 class Visita {
     - fecha: DateTime
+    - parentesco: String
+    - empresaReparto: String
     + Visita()
     + getFecha(): DateTime
     + setFecha(fecha: DateTime): void
