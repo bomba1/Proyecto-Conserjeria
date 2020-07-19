@@ -18,14 +18,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Routes for Auth Controller methods(user login and register)
+Route::get('/logout','Api\AuthController@logout')->middleware('auth:api');
+
 Route::post('/register','Api\AuthController@register');
 Route::post('/login','Api\AuthController@login');
 
-Route::get('/logout','Api\AuthController@logout')->middleware('auth:api');
 
-Route::apiResource('/comunidades','Api\ComunidadController');
-Route::apiResource('/personas','Api\PersonaController');
-Route::apiResource('/propiedades','Api\PropiedadController');
+Route::apiResource('/comunidad','Api\ComunidadController');
+Route::apiResource('/persona','Api\PersonaController');
+Route::apiResource('/propiedad','Api\PropiedadController');
 Route::apiResource('/registro','Api\VisitaController');
 
 
