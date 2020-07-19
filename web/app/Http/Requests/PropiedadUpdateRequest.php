@@ -28,7 +28,7 @@ class PropiedadUpdateRequest extends FormRequest
         $id = $this->get('id');
 
         return [
-            'numero' => 'required|integer|unique_numero_update:'.$id,
+            'numero' => 'integer|unique_numero_update:'.$id,
             'tipo' => 'in:CASA,DEPARTAMENTO',
             'comunidad_id' => 'exists:App\Comunidad,id',
         ];
@@ -42,7 +42,6 @@ class PropiedadUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'numero.required' => 'Se necesita el numero de la casa',
             'numero.unique_numero_update' => 'El numero ya esta en uso',
             'numero.integer' => 'Ingrese un numero entero porfavor',
             'tipo.in' => 'Porfavor solo ingrese si es una CASA o DEPARTAMENTO',
