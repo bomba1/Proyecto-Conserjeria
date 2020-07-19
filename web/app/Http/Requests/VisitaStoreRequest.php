@@ -43,16 +43,16 @@ class VisitaStoreRequest extends FormRequest
     {
         return [
             'fecha.required' => 'Se necesita una fecha',
-            'fecha.date' => 'fecha en formato no valido',
-            'fecha.before_or_equal' => 'fecha no valida',
+            'fecha.date' => 'Fecha en formato no valido',
+            'fecha.before_or_equal' => 'Fecha no valida',
             'parentesco.required' => 'se requiere parentesco',
-            'parentesco.regex' => 'parentesco debe ser entre 2 y 20 caracteres',
-            'empresa_reparto.required' => 'se requiere saber si es una empresa de reparto',
-            'empresa_reparto.in' => 'debe ser SI o NO',
-            'persona_id.required' => 'se requiere la persona',
-            'persona_id.exists' => 'la persona no existe',
-            'propiedad_id.required' => 'se requiere la propiedad',
-            'propiedad_id.exists' => 'la propiedad no existe',
+            'parentesco.regex' => 'Parentesco debe ser entre 2 y 20 caracteres',
+            'empresa_reparto.required' => 'Se requiere saber si es una empresa de reparto',
+            'empresa_reparto.in' => 'Debe ser SI o NO',
+            'persona_id.required' => 'Se requiere la persona',
+            'persona_id.exists' => 'La persona no existe',
+            'propiedad_id.required' => 'Se requiere la propiedad',
+            'propiedad_id.exists' => 'La propiedad no existe',
         ];
     }
 

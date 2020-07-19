@@ -76,4 +76,12 @@ class PersonaStoreRequest extends FormRequest
             ], 412)
         );
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+           'rut' => strtoupper($this->rut),
+        ]);
+    }
+
 }

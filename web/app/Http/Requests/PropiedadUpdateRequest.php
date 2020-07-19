@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ComunidadUpdateRequest extends FormRequest
+class PropiedadUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,12 @@ class ComunidadUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->get('id');
+
         return [
-            'nombre' => 'regex:/^(?!\s*$)[-a-zA-Z]{5,50}$/',
-            'direccion' => 'regex:/^(?!\s*$)[-a-zA-Z]{5,50}$/',
-            'tipo' => 'in:CONDOMINIO,EDIFICIO',
+            'numero' => 'integer|unique_numero_update:'.$id,
+            'tipo' => 'in:CASA,DEPARTAMENTO',
+            'comunidad_id' => 'exists:App\Comunidad,id',
         ];
     }
 
@@ -40,9 +42,10 @@ class ComunidadUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'nombre.regex' => 'Formato no valido, debe contener entre 5 y 50 caracteres',
-            'direccion.regex' => 'Formato no valido, debe contener entre 5 y 50 caracteres',
-            'tipo.in' => 'Puede ser CONDOMINIO o EDIFICIO',
+            'numero.unique_numero_update' => 'El numero ya esta en uso',
+            'numero.integer' => 'Ingrese un numero entero porfavor',
+            'tipo.in' => 'Porfavor solo ingrese si es una CASA o DEPARTAMENTO',
+            'comunidad_id.exists' => 'El condominio al cual se intento agregar la propiedad no existe',
         ];
     }
 

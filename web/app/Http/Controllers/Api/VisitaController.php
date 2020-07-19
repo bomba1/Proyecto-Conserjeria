@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VisitaStoreRequest;
+use App\Http\Requests\VisitaUpdateRequest;
 use App\Http\Resources\VisitaResource;
 use App\Propiedad;
 use App\Visita;
-use Illuminate\Http\Request;
 
 class VisitaController extends Controller
 {
@@ -32,7 +33,7 @@ class VisitaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VisitaStoreRequest $request)
     {
         // Se crea la visita
         $visita = Visita::create($request->all());
@@ -67,9 +68,16 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Visita $visita)
+    public function update(VisitaUpdateRequest $request, Visita $registro)
     {
-        //
+        // Update
+        $registro->fill($request->all());
+
+        $registro->save();
+
+        return response([
+            'message' => 'Updated Successfully',
+        ], 202);
     }
 
     /**
@@ -78,8 +86,11 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Visita $visita)
+    public function destroy(Visita $registro)
     {
-        //
+        $registro->delete();
+        return response([
+            'message' => 'Deleted',
+        ],202);
     }
 }
