@@ -11,13 +11,25 @@ class Persona {
   - nombre: String 
   - telefono: String 
   - email: String 
-  Persona ()
+  + Persona ()
+  + getRut(): String
+  + getNombre(): String
+  + getTelefono(): String
+  + getEmail(): String 
+  + setRut(rut: String): void
+  + setNombre(nombre: String): void
+  + setTelefono(telefono: String): void
+  + setEmail(email: String ): void
 }
 
 class Propiedad {
    - numero: Long
    - tipo: TipoPropiedad
-   Propiedad ()
+   + Propiedad()
+   + getNumero(): Long
+   + getTipo(): TipoPropiedad
+   + setNumero(numero: Long): void
+   + setTipo(tipo: TipoPropiedad): void
 }
 
 enum TipoPropiedad {
@@ -25,21 +37,29 @@ enum TipoPropiedad {
     DEPARTAMENTO
 }
 
+class Comunidad {
+    - nombre: String
+    - direccion: String
+    - tipo: TipoComunidad
+    + Comunidad()
+    + getNombre(): String
+    + getDireccion(): String
+    + getTipo(): TipoComunidad
+    + setNombre(nombre: String): void
+    + setDireccion(direccion: String): void
+    + setTipo(tipo: TipoComunidad): void
+}
+
 enum TipoComunidad {
    CONDOMINIO
    EDIFICIO 
 }
 
-class Comunidad {
-    - nombre: String
-    - direccion: String
-    - tipo: TipoComunidad
-    Comunidad ()
-}
-
 class Visita {
     - fecha: DateTime
-    Visita ()
+    + Visita()
+    + getFecha(): DateTime
+    + setFecha(fecha: DateTime): void
 }
 
 @enduml
