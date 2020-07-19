@@ -70,7 +70,14 @@ class VisitaController extends Controller
      */
     public function update(VisitaUpdateRequest $request, Visita $visita)
     {
-        //
+        // Update
+        $visita->fill($request->all());
+
+        $visita->save();
+
+        return response([
+            'message' => 'Updated Successfully',
+        ], 202);
     }
 
     /**
