@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PropiedadResource;
 use App\Propiedad;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,13 @@ class PropiedadController extends Controller
      */
     public function index()
     {
-        //
+        // SELECT * FROM Propiedad
+        $propiedad = Propiedad::orderBy('id','ASC')->get();
+
+        return response([
+            'message' => 'Retrieved Successfully',
+            'propiedad' => $propiedad,
+        ]);
     }
 
     /**
@@ -26,7 +33,13 @@ class PropiedadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Se guarda la propiedad en la base de datos
+        $propiedad = Propiedad::create($request->all());
+
+        return response([
+            'message' => 'Created Successfully',
+            'propiedad' => new PropiedadResource($propiedad),
+        ],201);
     }
 
     /**
@@ -37,7 +50,10 @@ class PropiedadController extends Controller
      */
     public function show(Propiedad $propiedad)
     {
-        //
+        return response([
+            'message' => 'Retrieved Successfully',
+            'propiedad' => new PropiedadResource($propiedad),
+        ],200);
     }
 
     /**
@@ -49,7 +65,14 @@ class PropiedadController extends Controller
      */
     public function update(Request $request, Propiedad $propiedad)
     {
-        //
+        // Update
+        $propiedad->fill($request->all());
+
+        $propiedad->save();
+
+        return response([
+            'message' => 'Updated Successfully',
+        ], 202);
     }
 
     /**
@@ -60,6 +83,9 @@ class PropiedadController extends Controller
      */
     public function destroy(Propiedad $propiedad)
     {
-        //
+        $propiedad->delete();
+        return response([
+            'message' => 'Deleted',
+        ],202);
     }
 }
