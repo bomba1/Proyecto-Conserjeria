@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PropiedadStoreRequest;
+use App\Http\Requests\PropiedadUpdateRequest;
 use App\Http\Resources\PropiedadResource;
 use App\Propiedad;
 use Illuminate\Http\Request;
@@ -31,7 +33,7 @@ class PropiedadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PropiedadStoreRequest $request)
     {
         //Se guarda la propiedad en la base de datos
         $propiedad = Propiedad::create($request->all());
@@ -63,7 +65,7 @@ class PropiedadController extends Controller
      * @param  \App\Propiedad  $propiedad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Propiedad $propiedad)
+    public function update(PropiedadUpdateRequest $request, Propiedad $propiedad)
     {
         // Update
         $propiedad->fill($request->all());
