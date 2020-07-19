@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Visita extends Model
 {
     protected $fillable = [
-        "fecha","persona_id","propiedad_id"
+        "fecha","parentesco","empresa_reparto","persona_id","propiedad_id"
     ];
 
     protected $hidden = [

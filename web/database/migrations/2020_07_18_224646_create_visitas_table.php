@@ -16,6 +16,8 @@ class CreateVisitasTable extends Migration
         Schema::create('visitas', function (Blueprint $table) {
             $table->id();
             $table->dateTime('fecha', 0);
+            $table->string('parentesco');
+            $table->enum('empresa_reparto',['SI','NO'])->default('NO');
             $table->timestamps();
 
             // Claves foraneas
