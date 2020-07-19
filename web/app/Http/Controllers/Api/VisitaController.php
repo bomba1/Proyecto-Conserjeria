@@ -50,10 +50,10 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function show($numero)
+    public function show($numero_propiedad)
     {
         // Obtenemos las visitas a este numero de propiedad.
-        $visitas = Propiedad::where('numero',$numero)->first()->visitas;
+        $visitas = Propiedad::where('numero',$numero_propiedad)->first()->visitas;
 
         return response([
             'message' => 'Retrieved Successfully',
@@ -68,12 +68,12 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function update(VisitaUpdateRequest $request, Visita $registro)
+    public function update(VisitaUpdateRequest $request, Visita $visita)
     {
         // Update
-        $registro->fill($request->all());
+        $visita->fill($request->all());
 
-        $registro->save();
+        $visita->save();
 
         return response([
             'message' => 'Updated Successfully',
