@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Comunidad;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ComunidadResource;
 use Illuminate\Http\Request;
 
 class ComunidadController extends Controller
@@ -15,7 +16,13 @@ class ComunidadController extends Controller
      */
     public function index()
     {
-        //
+        // SELECT * FROM personas
+        $comunidad = Comunidad::orderBy('id','ASC')->get();
+
+        return response([
+            'message' => 'Retrieved Successfully',
+            'personas' => $comunidad,
+        ]);
     }
 
     /**
@@ -26,7 +33,13 @@ class ComunidadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Se guarda la persona en la base de datos
+        $comunidad = Comunidad::create($request->all());
+
+        return response([
+            'message' => 'Created Successfully',
+            'persona' => new ComunidadResource($comunidad),
+        ],201);
     }
 
     /**
@@ -37,7 +50,10 @@ class ComunidadController extends Controller
      */
     public function show(Comunidad $comunidad)
     {
-        //
+        return response([
+            'message' => 'Retrieved Successfully',
+            'comunidad' => new ComunidadResource($comunidad),
+        ],200);
     }
 
     /**
@@ -49,7 +65,14 @@ class ComunidadController extends Controller
      */
     public function update(Request $request, Comunidad $comunidad)
     {
-        //
+        // Update
+        $comunidad->fill($request->all());
+
+        $comunidad->save();
+
+        return response([
+            'message' => 'Updated Successfully',
+        ], 202);
     }
 
     /**
@@ -60,6 +83,9 @@ class ComunidadController extends Controller
      */
     public function destroy(Comunidad $comunidad)
     {
-        //
+        $comunidad->delete();
+        return response([
+            'message' => 'Deleted',
+        ],202);
     }
 }
