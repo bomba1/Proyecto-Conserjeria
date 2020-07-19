@@ -51,14 +51,12 @@ class VisitaController extends Controller
      */
     public function show($numero)
     {
-        // TODO: revisar si se obtienen las visitas.
         // Obtenemos las visitas a este numero de propiedad.
-        $id_propiedad = Propiedad::where('numero',$numero)->first()->id;
-        $visitas = Visita::where('propiedad_id',$id_propiedad)->get();
+        $visitas = Propiedad::where('numero',$numero)->first()->visitas;
 
         return response([
             'message' => 'Retrieved Successfully',
-            'visitas' => $visitas,
+            'visitas' => new VisitaResource($visitas),
         ],200);
     }
 
