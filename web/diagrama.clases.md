@@ -58,10 +58,19 @@ enum TipoComunidad {
 class Visita {
     - fecha: DateTime
     - parentesco: String
-    - empresaReparto: String
+    - empresa_Reparto: EmpresaReparto
     + Visita()
     + getFecha(): DateTime
+    + getParentesco(): String
+    + getEmpresaReparto(): EmpresaReparto
     + setFecha(fecha: DateTime): void
+    + setParentesco(parentesco: String): void 
+    + setEmpresaReparto(empresa_Reparto: EmpresaReparto): void
+}
+
+enum EmpresaReparto {
+   SI
+   NO 
 }
 
 @enduml
