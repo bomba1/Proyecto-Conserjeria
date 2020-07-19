@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Comunidad;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ComunidadStoreRequest;
+use App\Http\Requests\ComunidadUpdateRequest;
 use App\Http\Resources\ComunidadResource;
 use Illuminate\Http\Request;
 
@@ -31,7 +33,7 @@ class ComunidadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ComunidadStoreRequest $request)
     {
         //Se guarda la persona en la base de datos
         $comunidad = Comunidad::create($request->all());
@@ -63,7 +65,7 @@ class ComunidadController extends Controller
      * @param  \App\Comunidad  $comunidad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comunidad $comunidad)
+    public function update(ComunidadUpdateRequest $request, Comunidad $comunidad)
     {
         // Update
         $comunidad->fill($request->all());

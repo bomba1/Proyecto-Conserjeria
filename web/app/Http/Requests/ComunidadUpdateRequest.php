@@ -15,7 +15,7 @@ class ComunidadUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,8 +26,8 @@ class ComunidadUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
-            'direccion' => 'regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
+            'nombre' => 'regex:/^(?!\s*$)[-a-zA-Z]{5,50}$/',
+            'direccion' => 'regex:/^(?!\s*$)[-a-zA-Z]{5,50}$/',
             'tipo' => 'in:CONDOMINIO,EDIFICIO',
         ];
     }
