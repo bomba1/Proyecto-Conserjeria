@@ -8,7 +8,6 @@ use App\Http\Requests\VisitaUpdateRequest;
 use App\Http\Resources\VisitaResource;
 use App\Propiedad;
 use App\Visita;
-use Illuminate\Http\Request;
 
 class VisitaController extends Controller
 {
