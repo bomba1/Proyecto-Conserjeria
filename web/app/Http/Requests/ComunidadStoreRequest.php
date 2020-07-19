@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class VisitaUpdateRequest extends FormRequest
+class ComunidadStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class VisitaUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -26,11 +26,9 @@ class VisitaUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'fecha' => 'date|before_or_equal:tomorrow',
-            'parentesco' => 'regex:/^[aA-zZ]{2,20}$/',
-            'empresa_reparto' => 'in:SI,NO',
-            'persona_id' => 'exists:App\Persona,id',
-            'propiedad_id' => 'exists:App\Propiedad,id',
+            'nombre' => 'required|regex:/^(?!\s*$)[-a-zA-Z]{5,50}$/',
+            'direccion' => 'required|regex:/^(?!\s*$)[-a-zA-Z]{5,50}$/',
+            'tipo' => 'required|in:CONDOMINIO,EDIFICIO',
         ];
     }
 
@@ -42,12 +40,12 @@ class VisitaUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'fecha.date' => 'Fecha en formato no valido',
-            'fecha.before_or_equal' => 'Fecha no valida',
-            'parentesco.regex' => 'Parentesco debe ser entre 2 y 20 caracteres',
-            'empresa_reparto.in' => 'Debe ser SI o NO',
-            'persona_id.exists' => 'La persona no existe',
-            'propiedad_id.exists' => 'La propiedad no existe',
+            'nombre.required' => 'Se necesita un nombre',
+            'nombre.regex' => 'Formato no valido, debe contener entre 5 y 50 caracteres',
+            'direccion.required' => 'Se necesita una direccion',
+            'direccion.regex' => 'Formato no valido, debe contener entre 5 y 50 caracteres',
+            'tipo.required' => 'Se necesita un tipo de comunidad',
+            'tipo.in' => 'Puede ser CONDOMINIO o EDIFICIO',
         ];
     }
 
