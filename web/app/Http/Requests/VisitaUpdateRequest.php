@@ -26,7 +26,7 @@ class VisitaUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'fecha' => 'require|date|before_or_equal:tomorrow',
+            'fecha' => 'date|before_or_equal:tomorrow',
             'parentesco' => 'regex:/^[aA-zZ]{2,20}$/',
             'empresa_reparto' => 'in:SI,NO',
             'persona_id' => 'exists:App\Persona,id',

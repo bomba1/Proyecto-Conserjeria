@@ -68,12 +68,12 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function update(VisitaUpdateRequest $request, Visita $visita)
+    public function update(VisitaUpdateRequest $request, Visita $registro)
     {
         // Update
-        $visita->fill($request->all());
+        $registro->fill($request->all());
 
-        $visita->save();
+        $registro->save();
 
         return response([
             'message' => 'Updated Successfully',
@@ -86,8 +86,11 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Visita $visita)
+    public function destroy(Visita $registro)
     {
-        //
+        $registro->delete();
+        return response([
+            'message' => 'Deleted',
+        ],202);
     }
 }
