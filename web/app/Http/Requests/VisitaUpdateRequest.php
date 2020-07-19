@@ -26,11 +26,11 @@ class VisitaUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'fecha' => 'required|date|before_or_equal:tomorrow',
-            'parentesco' => 'required|regex:/^[aA-zZ]{2,20}$/',
-            'empresa_reparto' => 'required|in:SI,NO',
-            'persona_id' => 'required|exists:App\Persona,id',
-            'propiedad_id' => 'required|exists:App\Propiedad,id',
+            'fecha' => 'date|before_or_equal:tomorrow',
+            'parentesco' => 'regex:/^[aA-zZ]{2,20}$/',
+            'empresa_reparto' => 'in:SI,NO',
+            'persona_id' => 'exists:App\Persona,id',
+            'propiedad_id' => 'exists:App\Propiedad,id',
         ];
     }
 
@@ -42,17 +42,12 @@ class VisitaUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'fecha.required' => 'Se necesita una fecha',
-            'fecha.date' => 'fecha en formato no valido',
-            'fecha.before_or_equal' => 'fecha no valida',
-            'parentesco.required' => 'se requiere parentesco',
-            'parentesco.regex' => 'parentesco debe ser entre 2 y 20 caracteres',
-            'empresa_reparto.required' => 'se requiere saber si es una empresa de reparto',
-            'empresa_reparto.in' => 'debe ser SI o NO',
-            'persona_id.required' => 'se requiere la persona',
-            'persona_id.exists' => 'la persona no existe',
-            'propiedad_id.required' => 'se requiere la propiedad',
-            'propiedad_id.exists' => 'la propiedad no existe',
+            'fecha.date' => 'Fecha en formato no valido',
+            'fecha.before_or_equal' => 'Fecha no valida',
+            'parentesco.regex' => 'Parentesco debe ser entre 2 y 20 caracteres',
+            'empresa_reparto.in' => 'Debe ser SI o NO',
+            'persona_id.exists' => 'La persona no existe',
+            'propiedad_id.exists' => 'La propiedad no existe',
         ];
     }
 
