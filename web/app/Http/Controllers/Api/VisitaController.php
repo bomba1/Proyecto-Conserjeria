@@ -86,9 +86,9 @@ class VisitaController extends Controller
      * @param  \App\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Visita $registro)
+    public function destroy(Visita $visita)
     {
-        $registro->delete();
+        $visita->delete();
         return response([
             'message' => 'Deleted',
         ],202);
