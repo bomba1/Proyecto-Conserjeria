@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Persona;
+use App\Propiedad;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -54,6 +55,59 @@ class CustomValidationServiceProvider extends ServiceProvider
         });
 
         //2.- Validacion del email en update(Update)
+        Validator::extend('unique_email_update', function ($attribute, $value, $parameters, $validator) {
+            $email = $value;
+            $rut = $parameters[0];
 
+            //Si el email no esta en uso, retorna true.
+            $contar_emails = Persona::where('email',$email)->count();
+            if($contar_emails == 0)
+                return true;
+
+            //Si el email es encontrado, verificamos si es de la persona que hace el cambio.
+            $persona = Persona::where('email',$email)->first();
+            $rut_email = $persona->rut;
+
+            if ($rut_email == $rut) {
+                return true;
+            }else {
+                return false;
+            }
+
+        });
+
+        Validator::replacer('unique_email_update', function($message, $attribute, $rule, $parameters) {
+            return str_replace(':attribute', $attribute, $message == 'validation.unique_email_update'
+                ? 'El email ya esta en uso.'
+                : $message);
+        });
+
+        //3.- Validacion del numero unico en Propiedad
+        Validator::extend('unique_numero_update', function ($attribute, $value, $parameters, $validator) {
+            $numero = $value;
+            $id = $parameters[0];
+
+            //Si el numero no esta en uso, retorna true.
+            $contar_numero= Propiedad::where('numero',$numero)->count();
+            if($contar_numero== 0)
+                return true;
+
+            //Si el email es encontrado, verificamos si es de la persona que hace el cambio.
+            $propiedad = Propiedad::where('numero',$numero)->first();
+            $id_persona = $propiedad->id;
+
+            if ($id_persona == $id) {
+                return true;
+            }else {
+                return false;
+            }
+
+        });
+
+        Validator::replacer('unique_numero_update', function($message, $attribute, $rule, $parameters) {
+            return str_replace(':attribute', $attribute, $message == 'validation.unique_numero_update'
+                ? 'El numero ya esta en uso.'
+                : $message);
+        });
     }
 }

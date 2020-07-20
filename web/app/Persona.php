@@ -13,4 +13,8 @@ class Persona extends Model
     protected $hidden = [
         'updated_at', 'created_at'
     ];
+
+    public function visitas(){
+        return $this->hasMany(Visita::class,'persona_id');
+    }
 }

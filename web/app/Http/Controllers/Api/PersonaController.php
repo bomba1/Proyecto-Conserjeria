@@ -40,20 +40,10 @@ class PersonaController extends Controller
      */
     public function store(PersonaStoreRequest $request)
     {
-        //Separamos los primeros 8 numeros y el digito verificador en variables distintas
-        list($numero, $digitoVerificador) = explode('-', $request->rut);
-
-        //Se reemplaza la k minuscula con K mayuscula
-        if ($digitoVerificador == 'k') {
-            $numero = $numero.'-K';
-        }else {
-            $numero = $numero.'-'.$digitoVerificador;
-        }
+        $data = $request->all();
 
         //Se guarda la persona en la base de datos
-        $persona = Persona::create($request->all());
-        $persona->rut = $numero;
-        $persona->save();
+        $persona = Persona::create($data);
 
         return response([
             'message' => 'Created Successfully',
@@ -84,21 +74,6 @@ class PersonaController extends Controller
      */
     public function update(PersonaUpdateRequest $request, Persona $persona)
     {
-        // Validacion adicional para que el unique del correo no afecte a si mismo.
-        $validator = Validator::make($request->all(), [
-            'email' => [
-                'required',
-                Rule::unique('personas')->ignore($persona),
-            ]
-        ]);
-
-        if ($validator->fails()) {
-            return response([
-                'message' => 'Rut ya en uso',
-                'error' => $validator->errors(),
-            ], 412);
-        }
-
         // Update
         $persona->fill($request->all());
 

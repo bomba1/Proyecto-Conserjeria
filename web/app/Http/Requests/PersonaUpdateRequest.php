@@ -31,10 +31,12 @@ class PersonaUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $rut = $this->get('rut');
+
         return [
-            'name' => 'regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
-            'email' => 'required|email:rfc,dns',
-            'phone' =>'numeric|between:40000000,99999999',
+            'nombre' => 'regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
+            'email' => 'email:rfc,dns|unique_email_update:'.$rut,
+            'telefono' =>'numeric|between:40000000,99999999',
         ];
     }
 
@@ -46,11 +48,11 @@ class PersonaUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.regex' => 'Formato de nombre inválido',
-            'email.required'  => 'Se necesita un correo',
+            'nombre.regex' => 'Formato de nombre inválido',
             'email.email'  => 'El correo no es válido',
-            'phone.numeric' =>'El teléfono debe ser un número',
-            'phone.between' =>'El teléfono indicado no existe',
+            'email.unique_email_update' => 'El correo ya esta en uso',
+            'telefono.numeric' =>'El teléfono debe ser un número',
+            'telefono.between' =>'El teléfono indicado no existe',
         ];
     }
 

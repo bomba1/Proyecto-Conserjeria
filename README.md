@@ -5,13 +5,13 @@ El Proyecto Conserjería tiene como funcionalidades básicas:
 • Listado de personas no admitidas en la comunidad.  
 • Registro de encomiendas y paquetería recibidas.
 
-## Datos
+# Datos
 ```
 Asignatura: Proyecto Software Basado en Plataformas
 Semestre: 7mo Semestre.
 Carrera: Ingeniería Civil en Computación e Informática.
 Universidad: Universidad Católica del Norte Sede Antofagasta.
-Profesor: Diego Patricio Urrutia Astorga.
+Profesor: Mg. Diego Patricio Urrutia Astorga.
 ```
 
 # Developers
@@ -19,6 +19,17 @@ Profesor: Diego Patricio Urrutia Astorga.
 • Pablo Matias Salas Olivares. (pablo.salas@alumnos.ucn.cl)  
 • Ignacio Andres Santander Quiñones. (ignaciosantanderq13@gmail.com)
 
-## Technologies
-• PHP v7.4.7.  
-• Laravel v7.2.5.
+# Technologies
+- Java:
+  - JDK v9.
+  - Jetbrains Intellij 2020 2 EAP.
+  - GRadle v6.5.
+  - JUnit v5.7.0.
+  - GSon v2.8.6.
+  - SLF4J v.1.8.0 + Logback v1.3.0.
+  - ORMLite v5.1 + SQLite v3.31.1.
+  - Javalin v3.8.0.
+- PHP:
+  - PHP v7.4.7.
+  - Jetbrains Intellij 2020 2 EAP + PHP Plugin.
+  - Laravel v7.2.5.

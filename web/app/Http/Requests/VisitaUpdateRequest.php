@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AuthLoginRequest extends FormRequest
+class VisitaUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class AuthLoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,8 +26,11 @@ class AuthLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'email:rfc,dns|required',
-            'password' => 'required'
+            'fecha' => 'date|before_or_equal:tomorrow',
+            'parentesco' => 'regex:/^[aA-zZ]{2,20}$/',
+            'empresa_reparto' => 'in:SI,NO',
+            'persona_id' => 'exists:App\Persona,id',
+            'propiedad_id' => 'exists:App\Propiedad,id',
         ];
     }
 
@@ -39,9 +42,12 @@ class AuthLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required'  => 'Se necesita un correo',
-            'email.email'  => 'El correo no es válido',
-            'password.required'  => 'Se necesita una contraseña',
+            'fecha.date' => 'Fecha en formato no valido',
+            'fecha.before_or_equal' => 'Fecha no valida',
+            'parentesco.regex' => 'Parentesco debe ser entre 2 y 20 caracteres',
+            'empresa_reparto.in' => 'Debe ser SI o NO',
+            'persona_id.exists' => 'La persona no existe',
+            'propiedad_id.exists' => 'La propiedad no existe',
         ];
     }
 
@@ -59,5 +65,4 @@ class AuthLoginRequest extends FormRequest
             ], 412)
         );
     }
-
 }

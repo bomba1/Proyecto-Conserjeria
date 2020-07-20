@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AuthLoginRequest extends FormRequest
+class PropiedadStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class AuthLoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,8 +26,9 @@ class AuthLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'email:rfc,dns|required',
-            'password' => 'required'
+            'numero' => 'required|unique:propiedades,numero|integer',
+            'tipo' => 'required|in:CASA,DEPARTAMENTO',
+            'comunidad_id' => 'required|exists:App\Comunidad,id',
         ];
     }
 
@@ -39,9 +40,13 @@ class AuthLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required'  => 'Se necesita un correo',
-            'email.email'  => 'El correo no es válido',
-            'password.required'  => 'Se necesita una contraseña',
+            'numero.required' => 'Se necesita un numero de propiedad',
+            'numero.unique' => 'El numero ya esta en uso',
+            'numero.integer' => 'Ingrese un numero entero porfavor',
+            'tipo.required' => 'Se necesita ingresar el tipo',
+            'tipo.in' => 'Porfavor solo ingrese si es una CASA o DEPARTAMENTO',
+            'comunidad_id.required' => 'La propiedad debe estar en algun condominio!',
+            'comunidad_id.exists' => 'El condominio al cual se intento agregar la propiedad no existe',
         ];
     }
 
@@ -59,5 +64,4 @@ class AuthLoginRequest extends FormRequest
             ], 412)
         );
     }
-
 }

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AuthLoginRequest extends FormRequest
+class ComunidadStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class AuthLoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,8 +26,9 @@ class AuthLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'email:rfc,dns|required',
-            'password' => 'required'
+            'nombre' => 'required|regex:/^(?!\s*$)[-a-zA-Z]{5,50}$/',
+            'direccion' => 'required|regex:/^(?!\s*$)[-a-zA-Z]{5,50}$/',
+            'tipo' => 'required|in:CONDOMINIO,EDIFICIO',
         ];
     }
 
@@ -39,9 +40,12 @@ class AuthLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required'  => 'Se necesita un correo',
-            'email.email'  => 'El correo no es válido',
-            'password.required'  => 'Se necesita una contraseña',
+            'nombre.required' => 'Se necesita un nombre',
+            'nombre.regex' => 'Formato no valido, debe contener entre 5 y 50 caracteres',
+            'direccion.required' => 'Se necesita una direccion',
+            'direccion.regex' => 'Formato no valido, debe contener entre 5 y 50 caracteres',
+            'tipo.required' => 'Se necesita un tipo de comunidad',
+            'tipo.in' => 'Puede ser CONDOMINIO o EDIFICIO',
         ];
     }
 
@@ -59,5 +63,4 @@ class AuthLoginRequest extends FormRequest
             ], 412)
         );
     }
-
 }
