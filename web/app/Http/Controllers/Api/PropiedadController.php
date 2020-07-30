@@ -19,11 +19,11 @@ class PropiedadController extends Controller
     public function index()
     {
         // SELECT * FROM Propiedad
-        $propiedad = Propiedad::orderBy('id','ASC')->get();
+        $propiedades = Propiedad::orderBy('id','ASC')->get();
 
         return response([
             'message' => 'Retrieved Successfully',
-            'propiedad' => $propiedad,
+            'propiedades' => $propiedades,
         ]);
     }
 
@@ -54,7 +54,7 @@ class PropiedadController extends Controller
     {
         return response([
             'message' => 'Retrieved Successfully',
-            'propiedad' => new PropiedadResource($propiedad),
+            'propiedades' => new PropiedadResource($propiedad),
         ],200);
     }
 
