@@ -1,12 +1,13 @@
 package com.pdbp.android_app.data
 
-import com.google.gson.annotations.SerializedName
 
 data class Propiedades(
+    val message: String,
     val propiedades: List<Propiedad>
 )
 
 data class Personas(
+    val message: String,
     val personas: List<Persona>
 )
 

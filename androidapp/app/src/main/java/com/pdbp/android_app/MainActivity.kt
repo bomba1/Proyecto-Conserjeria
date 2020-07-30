@@ -1,6 +1,7 @@
 package com.pdbp.android_app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
@@ -23,6 +24,7 @@ import com.pdbp.android_app.ui.AndroidappTheme
 
 class MainActivity : AppCompatActivity() {
 
+
     private val viewModel by viewModels<MainViewModel> {
         object : ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             AndroidappTheme {
                 Personas(personasData = viewModel.personasData)
@@ -49,6 +52,8 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun Personas(personasData: LiveData<List<Persona>>){
     val personas by personasData.observeAsState(emptyList())
+    Text(text = "hola")
+    Log.d("hola","hola")
     AdapterList(
         data = personas
     ) { persona ->

@@ -17,9 +17,10 @@ interface ApiRestEndPoints {
 }
 
 val retrofit = Retrofit.Builder()
-    .baseUrl("http://127.0.0.1:8000/api/")
+    .baseUrl("http://192.168.1.93:8000/api/")
     .client(OkHttpClient())
     .addConverterFactory(GsonConverterFactory.create())
     .build()
 
 val apiRestEndPoints: ApiRestEndPoints = retrofit.create(ApiRestEndPoints::class.java)
+

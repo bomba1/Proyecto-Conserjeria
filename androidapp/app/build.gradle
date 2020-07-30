@@ -49,6 +49,7 @@ dependencies {
     implementation "androidx.ui:ui-material:$compose_version"
     implementation "androidx.ui:ui-tooling:$compose_version"
     implementation "androidx.ui:ui-livedata:$compose_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

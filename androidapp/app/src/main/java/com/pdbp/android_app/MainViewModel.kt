@@ -20,6 +20,7 @@ class MainViewModel(
         viewModelScope.launch {
             try{
                 val personas = apiRestEndPoints.findPersonas()
+                Log.d("persona",personas.toString())
                 _personasData.value = personas.personas
 
             } catch (e: Exception) {
