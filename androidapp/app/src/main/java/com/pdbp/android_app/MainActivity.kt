@@ -21,11 +21,15 @@ import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import com.pdbp.android_app.data.Persona
 import com.pdbp.android_app.data.Propiedad
+import com.pdbp.android_app.data.Visita
 import com.pdbp.android_app.ui.AndroidappTheme
 
+/**
+ * Main Class
+ */
 class MainActivity : AppCompatActivity() {
 
-
+    //ViewModel Template
     private val viewModel by viewModels<MainViewModel> {
         object : ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -35,26 +39,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    //Here we call functions to show the Models
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             AndroidappTheme {
                 //Personas(personasData = viewModel.personasData)
-                Propiedades(propiedadesData = viewModel.propiedadesData)
+                //Propiedades(propiedadesData = viewModel.propiedadesData)
+                Visitas(visitasData = viewModel.visitasData)
             }
         }
 
         //viewModel.getPersonas()
-        viewModel.getPropiedades()
+        //viewModel.getPropiedades()
+        viewModel.getVisitas()
     }
 }
 
-
+/**
+ * This functions let us show personas
+ */
 @Composable
 fun Personas(personasData: LiveData<List<Persona>>){
     val personas by personasData.observeAsState(emptyList())
+
     AdapterList(
         data = personas
     ) { persona ->
@@ -62,8 +71,12 @@ fun Personas(personasData: LiveData<List<Persona>>){
     }
 }
 
+/**
+ * Here we show every atribute of persona
+ */
 @Composable
 fun PersonaItem(persona: Persona) {
+
     Column(
     ) {
         Text(text = persona.rut)
@@ -73,6 +86,9 @@ fun PersonaItem(persona: Persona) {
     }
 }
 
+/**
+ * This functions let us show propiedades
+ */
 @Composable
 fun Propiedades(propiedadesData: LiveData<List<Propiedad>>){
     val propiedades by propiedadesData.observeAsState(emptyList())
@@ -83,7 +99,9 @@ fun Propiedades(propiedadesData: LiveData<List<Propiedad>>){
     }
 }
 
-
+/**
+ * Here we show every atribute of propiedad
+ */
 @Composable
 fun PropiedadItem(propiedad: Propiedad) {
     Column(
@@ -95,15 +113,31 @@ fun PropiedadItem(propiedad: Propiedad) {
     }
 }
 
+/**
+ * This functions let us show visitas
+ */
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun Visitas(visitasData: LiveData<List<Visita>>){
+    val visitas by visitasData.observeAsState(emptyList())
+    AdapterList(
+        data = visitas
+    ) { visita ->
+        VisitaItem(visita = visita)
+    }
 }
 
-@Preview(showBackground = true)
+/**
+ * Here we show every atribute of visita
+ */
 @Composable
-fun DefaultPreview() {
-    AndroidappTheme {
-        Greeting("Android")
+fun VisitaItem(visita: Visita) {
+    Column(
+    ) {
+        Text(text = visita.id.toString())
+        Text(text = visita.fecha)
+        Text(text = visita.parentesco)
+        Text(text = visita.empresa_reparto)
+        Text(text = visita.persona_id.toString())
+        Text(text = visita.propiedad_id.toString())
     }
 }

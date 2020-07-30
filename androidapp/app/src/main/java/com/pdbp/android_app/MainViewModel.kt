@@ -7,8 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pdbp.android_app.data.Persona
 import com.pdbp.android_app.data.Propiedad
+import com.pdbp.android_app.data.Visita
 import kotlinx.coroutines.launch
 
+/**
+ * Class that executes functions from ApiRest
+ */
 class MainViewModel(
     private val apiRestEndPoints: ApiRestEndPoints
 ) : ViewModel() {
@@ -23,7 +27,6 @@ class MainViewModel(
         viewModelScope.launch {
             try{
                 val personas = apiRestEndPoints.findPersonas()
-                Log.d("persona",personas.toString())
                 _personasData.value = personas.personas
 
             } catch (e: Exception) {
@@ -42,7 +45,6 @@ class MainViewModel(
         viewModelScope.launch {
             try{
                 val propiedades = apiRestEndPoints.findPropiedades()
-                Log.d("propiedad",propiedades.toString())
                 _propiedadesData.value = propiedades.propiedades
             } catch (e: Exception) {
                 Log.d("Service Error:", e.toString())
@@ -50,5 +52,21 @@ class MainViewModel(
         }
     }
 
+    // Variables de Visita
+    private val _visitasData = MutableLiveData<List<Visita>>()
+    val visitasData: LiveData<List<Visita>>
+        get() = _visitasData
 
+    // Funcion que retorna propiedades
+    fun getVisitas() {
+        viewModelScope.launch {
+            try{
+                val visitas = apiRestEndPoints.findVisitas()
+                _visitasData.value = visitas.visitas
+
+            } catch (e: Exception) {
+                Log.d("Service Error:", e.toString())
+            }
+        }
+    }
 }
