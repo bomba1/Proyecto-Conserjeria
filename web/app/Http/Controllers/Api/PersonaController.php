@@ -24,11 +24,11 @@ class PersonaController extends Controller
     public function index()
     {
         // SELECT * FROM personas
-        $persona = Persona::orderBy('id','ASC')->get();
+        $personas = Persona::orderBy('id','ASC')->get();
 
         return response([
             'message' => 'Retrieved Successfully',
-            'personas' => $persona,
+            'personas' => $personas,
         ]);
     }
 
