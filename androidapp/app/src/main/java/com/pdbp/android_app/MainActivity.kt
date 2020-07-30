@@ -52,8 +52,6 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun Personas(personasData: LiveData<List<Persona>>){
     val personas by personasData.observeAsState(emptyList())
-    Text(text = "hola")
-    Log.d("hola","hola")
     AdapterList(
         data = personas
     ) { persona ->
