@@ -20,6 +20,7 @@ import androidx.ui.livedata.observeAsState
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import com.pdbp.android_app.data.Persona
+import com.pdbp.android_app.data.Propiedad
 import com.pdbp.android_app.ui.AndroidappTheme
 
 class MainActivity : AppCompatActivity() {
@@ -40,11 +41,13 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             AndroidappTheme {
-                Personas(personasData = viewModel.personasData)
+                //Personas(personasData = viewModel.personasData)
+                Propiedades(propiedadesData = viewModel.propiedadesData)
             }
         }
 
-        viewModel.getPersonas()
+        //viewModel.getPersonas()
+        viewModel.getPropiedades()
     }
 }
 
@@ -68,7 +71,28 @@ fun PersonaItem(persona: Persona) {
         Text(text = persona.telefono)
         Text(text = persona.email)
     }
+}
 
+@Composable
+fun Propiedades(propiedadesData: LiveData<List<Propiedad>>){
+    val propiedades by propiedadesData.observeAsState(emptyList())
+    AdapterList(
+        data = propiedades
+    ) { propiedad ->
+        PropiedadItem(propiedad = propiedad)
+    }
+}
+
+
+@Composable
+fun PropiedadItem(propiedad: Propiedad) {
+    Column(
+    ) {
+        Text(text = propiedad.id.toString())
+        Text(text = propiedad.numero.toString())
+        Text(text = propiedad.tipo)
+        Text(text = propiedad.comunidad_id.toString())
+    }
 }
 
 @Composable
