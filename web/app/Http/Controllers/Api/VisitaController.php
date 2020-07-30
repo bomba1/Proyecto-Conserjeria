@@ -40,7 +40,7 @@ class VisitaController extends Controller
 
         return response([
             'message' => 'Created Successfully',
-            'persona' => new VisitaResource($visita),
+            'visita' => new VisitaResource($visita),
         ],201);
     }
 
