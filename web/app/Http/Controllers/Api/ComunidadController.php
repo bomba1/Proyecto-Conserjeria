@@ -19,11 +19,11 @@ class ComunidadController extends Controller
     public function index()
     {
         // SELECT * FROM personas
-        $comunidad = Comunidad::orderBy('id','ASC')->get();
+        $comunidades = Comunidad::orderBy('id','ASC')->get();
 
         return response([
             'message' => 'Retrieved Successfully',
-            'personas' => $comunidad,
+            'comunidades' => $comunidades,
         ]);
     }
 
@@ -40,7 +40,7 @@ class ComunidadController extends Controller
 
         return response([
             'message' => 'Created Successfully',
-            'persona' => new ComunidadResource($comunidad),
+            'comunidad' => new ComunidadResource($comunidad),
         ],201);
     }
 
