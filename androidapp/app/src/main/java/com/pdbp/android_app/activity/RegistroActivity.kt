@@ -15,12 +15,13 @@ import androidx.ui.layout.Column
 import androidx.ui.livedata.observeAsState
 import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
+import com.pdbp.android_app.data.LoginResponse
 import com.pdbp.android_app.data.Persona
 import com.pdbp.android_app.data.Propiedad
 import com.pdbp.android_app.data.Visita
 import com.pdbp.android_app.ui.AndroidappTheme
 
-class RegistroActivity : ComponentActivity() {
+class RegistroActivity() : ComponentActivity() {
 
     //ViewModel Template
     private val viewModel by viewModels<MainViewModel> {
@@ -32,19 +33,42 @@ class RegistroActivity : ComponentActivity() {
         }
     }
 
+    // Objeto que contiene datos utiles en el registro, sobretodo el token
+    companion object {
+        var name: String =""
+        var email: String =""
+        var token : String = ""
+
+        // funcion para asignar los datos
+        fun setLoginData(loginResponse: LoginResponse?) {
+            if (loginResponse != null) {
+                this.name = loginResponse.user.name
+                this.email = loginResponse.user.email
+                this.token = loginResponse.token
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AndroidappTheme {
-                Personas(personasData = viewModel.personasData)
-                //Propiedades(propiedadesData = viewModel.propiedadesData)
-                //Visitas(visitasData = viewModel.visitasData)
+                Registro()
             }
         }
 
         viewModel.getPersonas()
-        //viewModel.getPropiedades()
-        //viewModel.getVisitas()
+        viewModel.getPropiedades()
+        viewModel.getVisitas()
+    }
+}
+
+@Composable
+fun Registro(){
+    Column {
+        Text(text = RegistroActivity.name)
+        Text(text = RegistroActivity.email)
+        Text(text = RegistroActivity.token)
     }
 }
 

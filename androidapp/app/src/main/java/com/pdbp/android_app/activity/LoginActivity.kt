@@ -1,16 +1,17 @@
 package com.pdbp.android_app.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.compose.Composable
 import androidx.compose.getValue
 import androidx.compose.state
-import androidx.lifecycle.LiveData
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.ui.core.ContextAmbient
 import androidx.ui.core.setContent
-import androidx.ui.foundation.AdapterList
 import androidx.ui.foundation.Text
 import androidx.ui.foundation.TextField
 import androidx.ui.foundation.TextFieldValue
@@ -20,9 +21,6 @@ import androidx.ui.livedata.observeAsState
 import androidx.ui.material.Button
 import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
-import com.pdbp.android_app.data.Persona
-import com.pdbp.android_app.data.Propiedad
-import com.pdbp.android_app.data.Visita
 import com.pdbp.android_app.ui.AndroidappTheme
 
 
@@ -51,8 +49,14 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun Login(viewModel: MainViewModel){
+
+    // Observamos si se obtiene el token
     val loginResponse by viewModel.loginResponse.observeAsState()
+
+    // UI que contiene el campo de email y password
     Column {
+
+        // Declaramos los input como variables dinamicas
         val email = state { TextFieldValue("") }
         val password = state { TextFieldValue("") }
 
@@ -65,9 +69,8 @@ fun Login(viewModel: MainViewModel){
             value = password.value,
             onValueChange = { password.value = it }
         )
-        Text("The email has this text: "+email.value.text)
-        Text("The password has this text: "+password.value.text)
 
+        // Boton de login, el cual hace la peticion del token
         Button(onClick =
         {
            viewModel.tryToLogin(email.value.text,password.value.text)
@@ -76,17 +79,20 @@ fun Login(viewModel: MainViewModel){
             Text("Login")
         }
 
-        Text("response: "+loginResponse.toString())
+        // Si se obtiene el token
+        if(!loginResponse?.token.isNullOrBlank()){
 
-        if(loginResponse?.token.isNullOrBlank())
-            Text("loginResponse?.token.isNullOrBlank(): "+loginResponse.toString())
+            // Se obtienen los datos para crear una nueva actividad
+            val context = ContextAmbient.current
+            val intent = Intent(context,RegistroActivity::class.java)
+
+            // Entregamos los datos del usuario que ingreso
+            RegistroActivity.setLoginData(loginResponse)
+            startActivity(context,intent,null)
+        }
+
     }
 
-
-
-
-
-
-
 }
+
 

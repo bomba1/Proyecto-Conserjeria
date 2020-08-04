@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.pdbp.android_app.activity.LoginActivity" />
+        <activity android:name="com.pdbp.android_app.activity.RegistroActivity" />
     </application>
 
 </manifest>
