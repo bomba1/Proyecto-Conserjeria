@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         PersonaTableSeeder::class,
         PropiedadTableSeeder::class,
         VisitaTableSeeder::class,
+        UsersTableSeeder::class,
         ]);
 
 
