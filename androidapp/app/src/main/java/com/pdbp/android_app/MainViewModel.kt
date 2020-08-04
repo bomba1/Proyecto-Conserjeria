@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pdbp.android_app.data.LoginResponse
 import com.pdbp.android_app.data.Persona
 import com.pdbp.android_app.data.Propiedad
 import com.pdbp.android_app.data.Visita
@@ -63,6 +64,25 @@ class MainViewModel(
             try{
                 val visitas = apiRestEndPoints.findVisitas()
                 _visitasData.value = visitas.visitas
+
+            } catch (e: Exception) {
+                Log.d("Service Error:", e.toString())
+            }
+        }
+    }
+
+    // Variables de login
+    private val _loginResponse = MutableLiveData<LoginResponse>()
+    val loginResponse: LiveData<LoginResponse>
+        get() = _loginResponse
+
+    // Funcion que retorna la respuesta del login
+    fun tryToLogin(email: String, password: String) {
+        viewModelScope.launch {
+            try{
+                val loginResponse = apiRestEndPoints.login(email, password)
+                Log.d("loginResponse:", loginResponse.toString())
+                _loginResponse.value = loginResponse
 
             } catch (e: Exception) {
                 Log.d("Service Error:", e.toString())
