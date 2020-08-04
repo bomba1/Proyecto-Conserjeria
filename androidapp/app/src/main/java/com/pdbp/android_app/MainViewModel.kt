@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pdbp.android_app.data.LoginResponse
-import com.pdbp.android_app.data.Persona
-import com.pdbp.android_app.data.Propiedad
-import com.pdbp.android_app.data.Visita
+import com.pdbp.android_app.data.*
 import kotlinx.coroutines.launch
 
 /**
@@ -78,11 +75,13 @@ class MainViewModel(
 
     // Funcion que retorna la respuesta del login
     fun tryToLogin(email: String, password: String) {
+        _loginResponse.value = null
+
         viewModelScope.launch {
             try{
-                val loginResponse = apiRestEndPoints.login(email, password)
-                Log.d("loginResponse:", loginResponse.toString())
-                _loginResponse.value = loginResponse
+                val response = apiRestEndPoints.login(email, password)
+                _loginResponse.value = response
+                //Log.d("_loginResponse:", _loginResponse.value.toString())
 
             } catch (e: Exception) {
                 Log.d("Service Error:", e.toString())
