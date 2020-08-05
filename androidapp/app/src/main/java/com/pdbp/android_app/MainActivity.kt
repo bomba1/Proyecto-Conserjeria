@@ -3,6 +3,9 @@ package com.pdbp.android_app
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.Composable
+import androidx.ui.material.MaterialTheme
+import androidx.ui.tooling.preview.Preview
 import com.pdbp.android_app.activity.LoginActivity
 
 /**
