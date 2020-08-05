@@ -21,6 +21,7 @@ import androidx.ui.graphics.Color
 import androidx.ui.layout.Column
 import androidx.ui.livedata.observeAsState
 import androidx.ui.material.Button
+import androidx.ui.material.Checkbox
 import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
 import com.pdbp.android_app.data.LoginResponse
@@ -168,7 +169,6 @@ fun Registro(viewModel: MainViewModel){
 
         // Declaramos los input como variables dinamicas
         val parentesco = state { TextFieldValue("") }
-        val empresa_reparto = state { TextFieldValue("") }
         val persona_id = state { TextFieldValue("") }
         val propiedad_id = state { TextFieldValue("") }
 
@@ -177,9 +177,10 @@ fun Registro(viewModel: MainViewModel){
                 onValueChange = { parentesco.value = it }
         )
 
-        TextField(
-                value = empresa_reparto.value,
-                onValueChange = { empresa_reparto.value = it }
+        val empresa_reparto = state { false }
+        Checkbox(
+                checked = empresa_reparto.value,
+                onCheckedChange = { empresa_reparto.value = it }
         )
 
         TextField(
@@ -195,7 +196,7 @@ fun Registro(viewModel: MainViewModel){
         // Boton el cual hara la peticion del registro y mandara un post al servidor
         Button(onClick =
         {
-            viewModel.registro(parentesco.value.text,empresa_reparto.value.text,persona_id.value.text,propiedad_id.value.text)
+            viewModel.registro(parentesco.value.text,empresa_reparto.value,persona_id.value.text,propiedad_id.value.text)
         },
                 backgroundColor = Color.Blue) {
             Text("Registrar Visita")
