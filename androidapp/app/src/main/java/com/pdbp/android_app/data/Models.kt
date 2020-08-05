@@ -57,3 +57,19 @@ data class Visita(
     val persona_id: Int,
     val propiedad_id: Int
 )
+
+data class LoginResponse(
+    var user: User,
+    var token: String,
+    var token_expires_at: String
+)
+
+data class User(
+    var name: String,
+    var email: String
+)
+
+data class RegistroResponse(
+    val message: String,
+    var visita: Visita
+)
