@@ -6,17 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.compose.Composable
 import androidx.compose.getValue
-import androidx.compose.state
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
+import androidx.compose.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.ui.core.ContextAmbient
+import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
-import androidx.ui.foundation.AdapterList
 import androidx.ui.foundation.Text
-import androidx.ui.foundation.TextField
-import androidx.ui.foundation.TextFieldValue
 import androidx.ui.graphics.Color
 import androidx.ui.layout.Column
 import androidx.ui.livedata.observeAsState
@@ -25,10 +20,13 @@ import androidx.ui.material.Checkbox
 import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
 import com.pdbp.android_app.data.LoginResponse
-import com.pdbp.android_app.data.Persona
-import com.pdbp.android_app.data.Propiedad
-import com.pdbp.android_app.data.Visita
 import com.pdbp.android_app.ui.AndroidappTheme
+import androidx.ui.layout.Row
+import androidx.ui.layout.padding
+import androidx.ui.material.OutlinedTextField
+import androidx.ui.material.TopAppBar
+import androidx.ui.savedinstancestate.savedInstanceState
+import androidx.ui.unit.dp
 
 class RegistroActivity() : ComponentActivity() {
 
@@ -66,95 +64,10 @@ class RegistroActivity() : ComponentActivity() {
             }
         }
 
+        //Obtenemos los datos llenar los modelos
         viewModel.getPersonas()
         viewModel.getPropiedades()
         viewModel.getVisitas()
-    }
-}
-
-
-/**
- * This functions let us show personas
- */
-@Composable
-fun Personas(personasData: LiveData<List<Persona>>){
-    val personas by personasData.observeAsState(emptyList())
-
-    AdapterList(
-        data = personas
-    ) { persona ->
-        PersonaItem(persona = persona)
-    }
-}
-
-/**
- * Here we show every atribute of persona
- */
-@Composable
-fun PersonaItem(persona: Persona) {
-
-    Column(
-    ) {
-        Text(text = persona.rut)
-        Text(text = persona.nombre)
-        Text(text = persona.telefono)
-        Text(text = persona.email)
-    }
-}
-
-/**
- * This functions let us show propiedades
- */
-@Composable
-fun Propiedades(propiedadesData: LiveData<List<Propiedad>>){
-    val propiedades by propiedadesData.observeAsState(emptyList())
-    AdapterList(
-        data = propiedades
-    ) { propiedad ->
-        PropiedadItem(propiedad = propiedad)
-    }
-}
-
-/**
- * Here we show every atribute of propiedad
- */
-@Composable
-fun PropiedadItem(propiedad: Propiedad) {
-    Column(
-    ) {
-        Text(text = propiedad.id.toString())
-        Text(text = propiedad.numero.toString())
-        Text(text = propiedad.tipo)
-        Text(text = propiedad.comunidad_id.toString())
-    }
-}
-
-/**
- * This functions let us show visitas
- */
-@Composable
-fun Visitas(visitasData: LiveData<List<Visita>>){
-    val visitas by visitasData.observeAsState(emptyList())
-    AdapterList(
-        data = visitas
-    ) { visita ->
-        VisitaItem(visita = visita)
-    }
-}
-
-/**
- * Here we show every atribute of visita
- */
-@Composable
-fun VisitaItem(visita: Visita) {
-    Column(
-    ) {
-        Text(text = visita.id.toString())
-        Text(text = visita.fecha)
-        Text(text = visita.parentesco)
-        Text(text = visita.empresa_reparto)
-        Text(text = visita.persona_id.toString())
-        Text(text = visita.propiedad_id.toString())
     }
 }
 
@@ -165,39 +78,61 @@ fun Registro(viewModel: MainViewModel){
     val registroResponse by viewModel.registroResponse.observeAsState()
 
     // UI que contiene los campos a llenar para el registro de visitas
-    Column {
+    Column(
+            modifier = Modifier.padding(bottom = 15.dp)
+    ) {
+
+        TopAppBar(title = {
+            Text("REGISTRO")
+        })
+
 
         // Declaramos los input como variables dinamicas
-        val parentesco = state { TextFieldValue("") }
-        val persona_id = state { TextFieldValue("") }
-        val propiedad_id = state { TextFieldValue("") }
+        var parentesco by savedInstanceState { "" }
+        var empresa_reparto by savedInstanceState { false }
+        var persona_id by savedInstanceState { "" }
+        var propiedad_id by savedInstanceState { "" }
 
-        TextField(
-                value = parentesco.value,
-                onValueChange = { parentesco.value = it }
+        OutlinedTextField(
+                modifier = Modifier.padding(start = 15.dp),
+                value = parentesco,
+                onValueChange = { parentesco = it},
+                placeholder = { Text("hermano") },
+                label = { Text("Parentesco") }
         )
 
-        val empresa_reparto = state { false }
-        Checkbox(
-                checked = empresa_reparto.value,
-                onCheckedChange = { empresa_reparto.value = it }
+        Row(
+                modifier = Modifier.padding(start = 15.dp,top = 5.dp)
+        ) {
+            Checkbox(
+                    checked = empresa_reparto,
+                    onCheckedChange = { empresa_reparto = it }
+            )
+            Text(
+                    text = "Empresa Reparto",
+                    modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+
+        OutlinedTextField(
+                modifier = Modifier.padding(start = 15.dp),
+                value = persona_id,
+                onValueChange = { persona_id = it},
+                placeholder = { Text("12.345.678-9") },
+                label = { Text("Rut Persona") }
         )
 
-        TextField(
-                value = persona_id.value,
-                onValueChange = { persona_id.value = it }
-        )
-
-        TextField(
-                value = propiedad_id.value,
-                onValueChange = { propiedad_id.value = it }
+        OutlinedTextField(
+                modifier = Modifier.padding(start = 15.dp),
+                value = propiedad_id,
+                onValueChange = { propiedad_id = it},
+                placeholder = { Text("123456") },
+                label = { Text("Numero Propiedad") }
         )
 
         // Boton el cual hara la peticion del registro y mandara un post al servidor
-        Button(onClick =
-        {
-            viewModel.registro(parentesco.value.text,empresa_reparto.value,persona_id.value.text,propiedad_id.value.text)
-        },
+        Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
+                onClick ={viewModel.registro(parentesco,empresa_reparto,persona_id,propiedad_id)},
                 backgroundColor = Color.Blue) {
             Text("Registrar Visita")
         }
