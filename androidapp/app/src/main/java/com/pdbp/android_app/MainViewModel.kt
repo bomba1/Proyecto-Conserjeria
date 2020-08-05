@@ -68,6 +68,27 @@ class MainViewModel(
         }
     }
 
+    // Variables de registro de una visita
+    private val _registroResponse = MutableLiveData<RegistroResponse>()
+    val registroResponse: LiveData<RegistroResponse>
+        get() = _registroResponse
+
+    // Funcion que retorna la respuesta del registro de una visita(el cual es la misma visita)
+    fun registro(fecha: String, parentesco: String, empresa_reparto: String, persona_id: String, propiedad_id: String) {
+        _registroResponse.value = null
+
+        viewModelScope.launch {
+            try{
+                val response = apiRestEndPoints.registroVisitas(fecha, parentesco, empresa_reparto, persona_id, propiedad_id)
+                _registroResponse.value = response
+                Log.d("_registroResponse:", _registroResponse.value.toString())
+
+            } catch (e: Exception) {
+                Log.d("Service Error:", e.toString())
+            }
+        }
+    }
+
     // Variables de login
     private val _loginResponse = MutableLiveData<LoginResponse>()
     val loginResponse: LiveData<LoginResponse>
