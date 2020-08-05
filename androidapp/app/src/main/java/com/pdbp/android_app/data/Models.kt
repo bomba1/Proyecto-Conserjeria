@@ -61,10 +61,15 @@ data class Visita(
 data class LoginResponse(
     var user: User,
     var token: String,
-    var token_expires_at: String,
+    var token_expires_at: String
 )
 
 data class User(
     var name: String,
     var email: String
+)
+
+data class RegistroResponse(
+    val message: String,
+    var visita: Visita
 )
