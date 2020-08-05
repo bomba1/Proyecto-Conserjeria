@@ -13,6 +13,7 @@ import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
 import androidx.ui.graphics.Color
+import androidx.ui.input.ImeAction
 import androidx.ui.layout.Column
 import androidx.ui.livedata.observeAsState
 import androidx.ui.material.Button
@@ -94,6 +95,7 @@ fun Registro(viewModel: MainViewModel){
         var propiedad_id by savedInstanceState { "" }
 
         OutlinedTextField(
+                imeAction = ImeAction.Done,
                 modifier = Modifier.padding(start = 15.dp),
                 value = parentesco,
                 onValueChange = { parentesco = it},
@@ -115,6 +117,7 @@ fun Registro(viewModel: MainViewModel){
         }
 
         OutlinedTextField(
+                imeAction = ImeAction.Done,
                 modifier = Modifier.padding(start = 15.dp),
                 value = persona_id,
                 onValueChange = { persona_id = it},
@@ -123,6 +126,7 @@ fun Registro(viewModel: MainViewModel){
         )
 
         OutlinedTextField(
+                imeAction = ImeAction.Done,
                 modifier = Modifier.padding(start = 15.dp),
                 value = propiedad_id,
                 onValueChange = { propiedad_id = it},

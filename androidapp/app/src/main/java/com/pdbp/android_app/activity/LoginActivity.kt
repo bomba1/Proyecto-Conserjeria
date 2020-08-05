@@ -15,7 +15,10 @@ import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
 import androidx.ui.graphics.Color
+import androidx.ui.input.ImeAction
+import androidx.ui.input.PasswordVisualTransformation
 import androidx.ui.layout.Column
+import androidx.ui.layout.fillMaxWidth
 import androidx.ui.layout.padding
 import androidx.ui.livedata.observeAsState
 import androidx.ui.material.*
@@ -81,19 +84,26 @@ fun Login(viewModel: MainViewModel) {
         var password by savedInstanceState { "" }
 
         OutlinedTextField(
-            modifier = Modifier.padding(start = 15.dp),
+            modifier = Modifier.padding(15.dp)+ Modifier.fillMaxWidth(),
+            imeAction = ImeAction.Done,
             value = email,
             onValueChange = { email = it},
             placeholder = { Text("example@gmail.com") },
             label = { Text("Email") }
         )
 
-        OutlinedTextField(
-            modifier = Modifier.padding(start = 15.dp),
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") }
-        )
+        Surface() {
+            OutlinedTextField(
+                    modifier = Modifier.padding(15.dp) + Modifier.fillMaxWidth(),
+                    imeAction = ImeAction.Done,
+                    visualTransformation = PasswordVisualTransformation(),
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") }
+            )
+        }
+
+
 
         // Boton de login, el cual hace la peticion del token
         Button(
