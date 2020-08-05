@@ -13,12 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.ui.core.ContextAmbient
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
-import androidx.ui.foundation.TextField
-import androidx.ui.foundation.TextFieldValue
 import androidx.ui.graphics.Color
 import androidx.ui.layout.Column
 import androidx.ui.livedata.observeAsState
-import androidx.ui.material.Button
+import androidx.ui.material.*
+import androidx.ui.savedinstancestate.savedInstanceState
+import androidx.ui.tooling.preview.Preview
 import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
 import com.pdbp.android_app.ui.AndroidappTheme
@@ -47,8 +47,18 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
+@Preview
 @Composable
-fun Login(viewModel: MainViewModel){
+fun MyApp(){
+    MaterialTheme{
+        TopAppBar(title = {
+            Text("LOGIN")
+        })
+    }
+}
+
+@Composable
+fun Login(viewModel: MainViewModel) {
 
     // Observamos si se obtiene el token
     val loginResponse by viewModel.loginResponse.observeAsState()
@@ -56,24 +66,31 @@ fun Login(viewModel: MainViewModel){
     // UI que contiene el campo de email y password
     Column {
 
-        // Declaramos los input como variables dinamicas
-        val email = state { TextFieldValue("") }
-        val password = state { TextFieldValue("") }
+        TopAppBar(title = {
+            Text("LOGIN")
+        })
 
-        TextField(
-            value = email.value,
-            onValueChange = { email.value = it }
+        // Declaramos los input como variables dinamicas
+        var email = ""
+        var password = ""
+
+        val text = "Email"
+        OutlinedTextField(
+            value = text,
+            onValueChange = { email = it},
+            label = { Text("Email") }
         )
 
-        TextField(
-            value = password.value,
-            onValueChange = { password.value = it }
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Label") }
         )
 
         // Boton de login, el cual hace la peticion del token
         Button(onClick =
         {
-           viewModel.tryToLogin(email.value.text,password.value.text)
+           viewModel.tryToLogin(email,password)
         },
             backgroundColor = Color.Red) {
             Text("Login")
@@ -92,7 +109,7 @@ fun Login(viewModel: MainViewModel){
         }
 
     }
-
 }
+
 
 
