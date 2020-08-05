@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pdbp.android_app.data.*
+import com.pdbp.android_app.utils.getCurrentDateTime
+import com.pdbp.android_app.utils.toString
 import kotlinx.coroutines.launch
 
 /**
@@ -74,12 +76,14 @@ class MainViewModel(
         get() = _registroResponse
 
     // Funcion que retorna la respuesta del registro de una visita(el cual es la misma visita)
-    fun registro(fecha: String, parentesco: String, empresa_reparto: String, persona_id: String, propiedad_id: String) {
+    fun registro(parentesco: String, empresa_reparto: String, persona_id: String, propiedad_id: String) {
         _registroResponse.value = null
 
         viewModelScope.launch {
             try{
-                val response = apiRestEndPoints.registroVisitas(fecha, parentesco, empresa_reparto, persona_id, propiedad_id)
+                val date = getCurrentDateTime()
+                val dateString = date.toString("yyyy-MM-dd HH:mm:ss")
+                val response = apiRestEndPoints.registroVisitas(dateString, parentesco, empresa_reparto, persona_id, propiedad_id)
                 _registroResponse.value = response
                 Log.d("_registroResponse:", _registroResponse.value.toString())
 

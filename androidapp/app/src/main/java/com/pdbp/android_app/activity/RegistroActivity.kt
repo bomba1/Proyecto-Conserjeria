@@ -167,16 +167,10 @@ fun Registro(viewModel: MainViewModel){
     Column {
 
         // Declaramos los input como variables dinamicas
-        val fecha = state { TextFieldValue("") }
         val parentesco = state { TextFieldValue("") }
         val empresa_reparto = state { TextFieldValue("") }
         val persona_id = state { TextFieldValue("") }
         val propiedad_id = state { TextFieldValue("") }
-
-        TextField(
-                value = fecha.value,
-                onValueChange = { fecha.value = it }
-        )
 
         TextField(
                 value = parentesco.value,
@@ -201,7 +195,7 @@ fun Registro(viewModel: MainViewModel){
         // Boton el cual hara la peticion del registro y mandara un post al servidor
         Button(onClick =
         {
-            viewModel.registro(fecha.value.text,parentesco.value.text,empresa_reparto.value.text,persona_id.value.text,propiedad_id.value.text)
+            viewModel.registro(parentesco.value.text,empresa_reparto.value.text,persona_id.value.text,propiedad_id.value.text)
         },
                 backgroundColor = Color.Blue) {
             Text("Registrar Visita")
