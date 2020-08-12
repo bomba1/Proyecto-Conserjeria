@@ -125,6 +125,14 @@ fun Login(viewModel: MainViewModel) {
             startActivity(context,intent,null)
         }
 
+        // Si ocurrio un error
+        if(!loginResponse?.message.isNullOrBlank()){
+
+            loginResponse?.error?.forEach {
+                Text(it)
+            }
+        }
+
     }
 }
 

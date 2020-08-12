@@ -52,9 +52,9 @@ class AuthController extends Controller
         // Fail: 401 Unauthorized
         if (!auth()->attempt($data)) {
             return response([
-                'error' => 'Invalid Credentials',
+                'error' => ['Correo o contraseña incorrecta'],
                 'message' => 'Unauthorized, wrong email or password',
-            ],401);
+            ]);
         }
 
         $authToken = auth()->user()->createToken('authToken');

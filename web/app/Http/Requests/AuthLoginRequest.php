@@ -56,7 +56,7 @@ class AuthLoginRequest extends FormRequest
             response()->json([
                 'message' => 'Validation Error',
                 'error' => $validator->errors()->all()
-            ], 412)
+            ])
         );
     }
 

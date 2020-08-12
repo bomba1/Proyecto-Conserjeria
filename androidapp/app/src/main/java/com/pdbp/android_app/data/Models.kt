@@ -26,6 +26,15 @@ data class Visitas(
 )
 
 /**
+ * Class that contains a list of Personafrom json
+ */
+data class PersonaResponse(
+        var message: String,
+        var persona: Persona,
+        var error: List<String>
+)
+
+/**
  * Class that represents the model of Persona
  */
 data class Persona(
@@ -61,7 +70,9 @@ data class Visita(
 data class LoginResponse(
     var user: User,
     var token: String,
-    var token_expires_at: String
+    var token_expires_at: String,
+    var error: List<String>,
+    var message: String
 )
 
 data class User(
@@ -70,6 +81,8 @@ data class User(
 )
 
 data class RegistroResponse(
-    val message: String,
-    var visita: Visita
+    var message: String,
+    var visita: Visita,
+    var error: List<String>
+
 )
