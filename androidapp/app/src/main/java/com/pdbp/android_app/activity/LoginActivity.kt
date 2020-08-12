@@ -92,18 +92,14 @@ fun Login(viewModel: MainViewModel) {
             label = { Text("Email") }
         )
 
-        Surface() {
-            OutlinedTextField(
-                    modifier = Modifier.padding(15.dp) + Modifier.fillMaxWidth(),
-                    imeAction = ImeAction.Done,
-                    visualTransformation = PasswordVisualTransformation(),
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text("Password") }
-            )
-        }
-
-
+        OutlinedTextField(
+                modifier = Modifier.padding(15.dp) + Modifier.fillMaxWidth(),
+                imeAction = ImeAction.Done,
+                visualTransformation = PasswordVisualTransformation(),
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") }
+        )
 
         // Boton de login, el cual hace la peticion del token
         Button(

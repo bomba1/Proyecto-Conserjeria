@@ -49,9 +49,9 @@ class VisitaStoreRequest extends FormRequest
             'parentesco.regex' => 'Parentesco debe ser entre 2 y 20 caracteres',
             'empresa_reparto.required' => 'Se requiere saber si es una empresa de reparto',
             'empresa_reparto.in' => 'Debe ser SI o NO',
-            'persona_rut.required' => 'Se requiere la persona',
+            'persona_rut.required' => 'Se requiere el rut de la persona',
             'persona_rut.exists' => 'La persona no existe',
-            'propiedad_numero.required' => 'Se requiere la propiedad',
+            'propiedad_numero.required' => 'Se requiere el numero de propiedad',
             'propiedad_numero.exists' => 'La propiedad no existe',
         ];
     }

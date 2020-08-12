@@ -1,6 +1,5 @@
 package com.pdbp.android_app.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
@@ -91,8 +90,8 @@ fun Registro(viewModel: MainViewModel){
         // Declaramos los input como variables dinamicas
         var parentesco by savedInstanceState { "" }
         var empresa_reparto by savedInstanceState { false }
-        var persona_id by savedInstanceState { "" }
-        var propiedad_id by savedInstanceState { "" }
+        var persona_rut by savedInstanceState { "" }
+        var propiedad_numero by savedInstanceState { "" }
 
         OutlinedTextField(
                 imeAction = ImeAction.Done,
@@ -119,8 +118,8 @@ fun Registro(viewModel: MainViewModel){
         OutlinedTextField(
                 imeAction = ImeAction.Done,
                 modifier = Modifier.padding(start = 15.dp),
-                value = persona_id,
-                onValueChange = { persona_id = it},
+                value = persona_rut,
+                onValueChange = { persona_rut = it},
                 placeholder = { Text("12.345.678-9") },
                 label = { Text("Rut Persona") }
         )
@@ -128,29 +127,36 @@ fun Registro(viewModel: MainViewModel){
         OutlinedTextField(
                 imeAction = ImeAction.Done,
                 modifier = Modifier.padding(start = 15.dp),
-                value = propiedad_id,
-                onValueChange = { propiedad_id = it},
+                value = propiedad_numero,
+                onValueChange = { propiedad_numero = it},
                 placeholder = { Text("123456") },
                 label = { Text("Numero Propiedad") }
         )
 
         // Boton el cual hara la peticion del registro y mandara un post al servidor
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={viewModel.registro(parentesco,empresa_reparto,persona_id,propiedad_id)},
+                onClick ={viewModel.registro(parentesco,empresa_reparto,persona_rut,propiedad_numero)},
                 backgroundColor = Color.Blue) {
             Text("Registrar Visita")
         }
 
         // Si se obtiene la respuesta al registro, abrimos
-        if(!registroResponse?.message.isNullOrBlank()){
+        if(registroResponse?.visita != null){
 
-            Text(text = "Los datos de la visita ingresada son:")
-            Text(text = registroResponse?.visita?.fecha.toString())
-            Text(text = registroResponse?.visita?.parentesco.toString())
-            Text(text = registroResponse?.visita?.empresa_reparto.toString())
-            Text(text = registroResponse?.visita?.persona_id.toString())
-            Text(text = registroResponse?.visita?.propiedad_id.toString())
+            Text(text = "La visita fue ingresada con exito")
+            parentesco = ""
+            empresa_reparto = false
+            persona_rut = ""
+            propiedad_numero = ""
 
+        }
+
+        // Si ocurrio un error
+        if(registroResponse?.message.equals("Validation Error")){
+
+            registroResponse?.error?.forEach {
+                Text(it)
+            }
         }
 
     }

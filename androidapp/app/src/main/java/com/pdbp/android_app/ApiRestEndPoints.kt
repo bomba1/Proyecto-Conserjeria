@@ -32,8 +32,8 @@ interface ApiRestEndPoints {
     suspend fun registroVisitas(@Field("fecha") fecha: String ,
                                 @Field("parentesco") parentesco: String,
                                 @Field("empresa_reparto") empresa_reparto: String,
-                                @Field("persona_id") persona_id: String,
-                                @Field("propiedad_id") propiedad_id: String) : RegistroResponse
+                                @Field("persona_rut") persona_rut: String,
+                                @Field("propiedad_numero") propiedad_numero: String) : RegistroResponse
 
     //Route to store a visita
     @POST("persona")
