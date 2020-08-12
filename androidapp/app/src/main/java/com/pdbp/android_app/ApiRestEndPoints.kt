@@ -35,6 +35,14 @@ interface ApiRestEndPoints {
                                 @Field("persona_id") persona_id: String,
                                 @Field("propiedad_id") propiedad_id: String) : RegistroResponse
 
+    //Route to store a visita
+    @POST("persona")
+    @FormUrlEncoded
+    suspend fun registroPersona(@Field("rut") rut: String ,
+                                @Field("nombre") nombre: String,
+                                @Field("telefono") telefono: String,
+                                @Field("email") email: String) : PersonaResponse
+
     //Route to login to the server
     @POST("login")
     @FormUrlEncoded
