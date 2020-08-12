@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\VisitaStoreRequest;
 use App\Http\Requests\VisitaUpdateRequest;
 use App\Http\Resources\VisitaResource;
+use App\Persona;
 use App\Propiedad;
 use App\Visita;
+use Illuminate\Http\Request;
 
 class VisitaController extends Controller
 {
@@ -35,8 +37,19 @@ class VisitaController extends Controller
      */
     public function store(VisitaStoreRequest $request)
     {
+        $id_persona = Persona::where('rut', $request->persona_rut)->first()->id;
+        $id_propiedad = Propiedad::where('numero', $request->propiedad_numero)->first()->id;
+
+        $newRequest = new Request([
+            'fecha'   => $request->fecha,
+            'parentesco'  => $request->parentesco,
+            'empresa_reparto'  => $request->empresa_reparto,
+            'persona_id'  => $id_persona,
+            'propiedad_id'  => $id_propiedad,
+        ]);
+
         // Se crea la visita
-        $visita = Visita::create($request->all());
+        $visita = Visita::create($newRequest->all());
 
         return response([
             'message' => 'Created Successfully',

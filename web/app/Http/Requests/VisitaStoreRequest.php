@@ -29,8 +29,8 @@ class VisitaStoreRequest extends FormRequest
             'fecha' => 'required|date|before_or_equal:tomorrow',
             'parentesco' => 'required|regex:/^[aA-zZ]{2,20}$/',
             'empresa_reparto' => 'required|in:SI,NO',
-            'persona_id' => 'required|exists:App\Persona,id',
-            'propiedad_id' => 'required|exists:App\Propiedad,id',
+            'persona_rut' => 'required|exists:App\Persona,rut',
+            'propiedad_numero' => 'required|exists:App\Propiedad,numero',
         ];
     }
 
@@ -49,10 +49,10 @@ class VisitaStoreRequest extends FormRequest
             'parentesco.regex' => 'Parentesco debe ser entre 2 y 20 caracteres',
             'empresa_reparto.required' => 'Se requiere saber si es una empresa de reparto',
             'empresa_reparto.in' => 'Debe ser SI o NO',
-            'persona_id.required' => 'Se requiere la persona',
-            'persona_id.exists' => 'La persona no existe',
-            'propiedad_id.required' => 'Se requiere la propiedad',
-            'propiedad_id.exists' => 'La propiedad no existe',
+            'persona_rut.required' => 'Se requiere la persona',
+            'persona_rut.exists' => 'La persona no existe',
+            'propiedad_numero.required' => 'Se requiere la propiedad',
+            'propiedad_numero.exists' => 'La propiedad no existe',
         ];
     }
 
