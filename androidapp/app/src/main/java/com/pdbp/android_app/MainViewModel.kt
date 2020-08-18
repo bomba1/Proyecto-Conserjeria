@@ -1,10 +1,15 @@
 package com.pdbp.android_app
 
+import android.content.Intent
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.ui.core.ContextAmbient
+import com.pdbp.android_app.activity.RegistroActivity
+import com.pdbp.android_app.activity.RegistroPersonaActivity
 import com.pdbp.android_app.data.*
 import com.pdbp.android_app.utils.getCurrentDateTime
 import com.pdbp.android_app.utils.toString
@@ -101,6 +106,26 @@ class MainViewModel(
         }
     }
 
+    // Variables del registro de una persona
+    private val _personaResponse = MutableLiveData<PersonaResponse>()
+    val personaResponse: LiveData<PersonaResponse>
+        get() = _personaResponse
+
+    // Funcion que retorna la respuesta cuando registramos una persona
+    fun registroPersona(rut: String, nombre: String, telefono: String, email: String) {
+        _personaResponse.value = null
+
+        viewModelScope.launch {
+            try{
+                val response = apiRestEndPoints.registroPersona(rut, nombre, telefono, email)
+                _personaResponse.value = response
+
+            } catch (e: Exception) {
+                Log.d("Service Error:", e.toString())
+            }
+        }
+    }
+
     // Variables de login
     private val _loginResponse = MutableLiveData<LoginResponse>()
     val loginResponse: LiveData<LoginResponse>
@@ -121,4 +146,5 @@ class MainViewModel(
             }
         }
     }
+
 }
