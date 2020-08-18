@@ -29,7 +29,7 @@ class VisitaStoreRequest extends FormRequest
             'fecha' => 'required|date|before_or_equal:tomorrow',
             'parentesco' => 'required|regex:/^[aA-zZ]{2,20}$/',
             'empresa_reparto' => 'required|in:SI,NO',
-            'persona_rut' => 'required|exists:App\Persona,rut',
+            'persona_rut' => 'required|exists:App\Persona,rut|cl_rut',
             'propiedad_numero' => 'required|exists:App\Propiedad,numero',
         ];
     }
@@ -50,6 +50,7 @@ class VisitaStoreRequest extends FormRequest
             'empresa_reparto.required' => 'Se requiere saber si es una empresa de reparto',
             'empresa_reparto.in' => 'Debe ser SI o NO',
             'persona_rut.required' => 'Se requiere el rut de la persona',
+            'persona_rut.cl_rut' => 'El rut no es válido',
             'persona_rut.exists' => 'La persona no existe',
             'propiedad_numero.required' => 'Se requiere el numero de propiedad',
             'propiedad_numero.exists' => 'La propiedad no existe',
@@ -69,5 +70,12 @@ class VisitaStoreRequest extends FormRequest
                 'error' => $validator->errors()->all()
             ])
         );
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'persona_rut' => strtoupper($this->persona_rut),
+        ]);
     }
 }
