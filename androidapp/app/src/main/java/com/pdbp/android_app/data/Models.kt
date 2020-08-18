@@ -67,6 +67,9 @@ data class Visita(
     val propiedad_id: Int
 )
 
+/**
+ * This class Stores the response of user when we try to login
+ */
 data class LoginResponse(
     var user: User,
     var token: String,
@@ -75,11 +78,17 @@ data class LoginResponse(
     var message: String
 )
 
+/**
+ * Class that represents de user from login
+ */
 data class User(
     var name: String,
     var email: String
 )
 
+/**
+ * This class contains the response of visita when we try to register it to the database
+ */
 data class RegistroResponse(
     var message: String,
     var visita: Visita,

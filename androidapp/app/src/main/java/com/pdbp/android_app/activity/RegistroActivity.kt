@@ -1,13 +1,16 @@
 package com.pdbp.android_app.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.compose.Composable
 import androidx.compose.getValue
 import androidx.compose.setValue
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.ui.core.ContextAmbient
 import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
@@ -76,7 +79,7 @@ fun Registro(viewModel: MainViewModel){
 
     // Obsevamos si se obtiene la respuesta luego de hacer un registro de visita(la cual es la misma visita)
     val registroResponse by viewModel.registroResponse.observeAsState()
-
+    var registroPersonaActivity by savedInstanceState { false }
     // UI que contiene los campos a llenar para el registro de visitas
     Column(
             modifier = Modifier.padding(bottom = 15.dp)
@@ -140,6 +143,13 @@ fun Registro(viewModel: MainViewModel){
             Text("Registrar Visita")
         }
 
+        // Boton para ir a registrar una persona
+        Button(
+                modifier = Modifier.padding(start = 15.dp,top = 15.dp),
+                onClick ={ registroPersonaActivity = true },
+                backgroundColor = Color.Red
+        ){Text("Registrar Persona")}
+
         // Si se obtiene la respuesta al registro, abrimos
         if(registroResponse?.visita != null){
 
@@ -149,6 +159,11 @@ fun Registro(viewModel: MainViewModel){
             persona_rut = ""
             propiedad_numero = ""
 
+        }
+
+        if (registroPersonaActivity) {
+            registroPersonaActivity = false
+            abrirRegistroPersona()
         }
 
         // Si ocurrio un error
@@ -161,4 +176,13 @@ fun Registro(viewModel: MainViewModel){
 
     }
 
+}
+
+@Composable
+fun abrirRegistroPersona() {
+    // Se obtienen los datos para crear una nueva actividad
+    val context = ContextAmbient.current
+    val intent = Intent(context, RegistroPersonaActivity::class.java)
+
+    ContextCompat.startActivity(context, intent, null)
 }
