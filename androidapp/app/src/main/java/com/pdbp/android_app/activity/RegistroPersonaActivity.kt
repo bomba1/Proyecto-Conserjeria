@@ -7,21 +7,20 @@ import androidx.activity.viewModels
 import androidx.compose.Composable
 import androidx.compose.getValue
 import androidx.compose.setValue
+import androidx.compose.state
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.ui.core.Alignment
 import androidx.ui.core.ContextAmbient
 import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
-import androidx.ui.graphics.Color
 import androidx.ui.input.ImeAction
 import androidx.ui.layout.Column
 import androidx.ui.layout.padding
 import androidx.ui.livedata.observeAsState
-import androidx.ui.material.Button
-import androidx.ui.material.OutlinedTextField
-import androidx.ui.material.TopAppBar
+import androidx.ui.material.*
 import androidx.ui.savedinstancestate.savedInstanceState
 import androidx.ui.unit.dp
 import com.pdbp.android_app.MainViewModel
@@ -32,23 +31,31 @@ class RegistroPersonaActivity() : ComponentActivity() {
 
     //ViewModel Template
     private val viewModel by viewModels<MainViewModel> {
+
         object : ViewModelProvider.Factory{
+
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return MainViewModel(apiRestEndPoints) as T
             }
 
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
         setContent {
+
             AndroidappTheme {
                 RegistroPersona(viewModel = viewModel)
             }
+
         }
 
     }
+
 }
 
 @Composable
@@ -59,7 +66,8 @@ fun RegistroPersona(viewModel: MainViewModel){
     var registroActivity by savedInstanceState { false }
     // UI que contiene los campos a llenar para el registro de personas
     Column(
-            modifier = Modifier.padding(bottom = 15.dp)
+            modifier = Modifier.padding(bottom = 15.dp),
+            horizontalGravity = Alignment.CenterHorizontally
     ) {
 
         TopAppBar(title = {
@@ -111,22 +119,43 @@ fun RegistroPersona(viewModel: MainViewModel){
 
         // Boton el cual hara la peticion del registro y mandara un post al servidor
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={viewModel.registroPersona(rut, nombre, telefono, email, LoginActivity.token)},
-                backgroundColor = Color.Blue) {
-            Text("Registrar Persona")
-        }
+                onClick ={viewModel.registroPersona(rut, nombre, telefono, email, LoginActivity.token)})
+        { Text("Registrar Persona") }
 
         // Boton el cual hara nos dejara volver a la actividad Registro Visita
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={ registroActivity = true },
-                backgroundColor = Color.Red) {
-            Text("Volver a Registro Visita")
-        }
+                onClick ={ registroActivity = true })
+        { Text("Volver a Registro Visita") }
 
         // Si se obtiene la respuesta al registro
         if(personaResponse?.persona != null){
 
-            Text(text = "La persona fue ingresada con exito")
+            val openDialog = state { true }
+
+            if (openDialog.value) {
+                AlertDialog(
+                        onCloseRequest = {
+                            openDialog.value = false
+                        },
+                        title = {
+                            Text("EXITO")
+                        },
+                        text = {
+                            Text(text = "La persona fue ingresada con exito")
+                        },
+                        confirmButton = {
+                            Button(
+                                    onClick = {
+                                        openDialog.value = false
+                                    }){
+                                Text("Ok")
+                            }
+                        },
+                        buttonLayout = AlertDialogButtonLayout.Stacked
+                )
+
+            }
+
             rut = ""
             nombre = ""
             telefono = ""
