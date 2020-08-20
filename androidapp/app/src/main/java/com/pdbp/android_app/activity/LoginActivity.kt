@@ -7,9 +7,11 @@ import androidx.activity.viewModels
 import androidx.compose.Composable
 import androidx.compose.getValue
 import androidx.compose.setValue
+import androidx.compose.state
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.ui.core.Alignment
 import androidx.ui.core.ContextAmbient
 import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
@@ -17,9 +19,7 @@ import androidx.ui.foundation.Text
 import androidx.ui.graphics.Color
 import androidx.ui.input.ImeAction
 import androidx.ui.input.PasswordVisualTransformation
-import androidx.ui.layout.Column
-import androidx.ui.layout.fillMaxWidth
-import androidx.ui.layout.padding
+import androidx.ui.layout.*
 import androidx.ui.livedata.observeAsState
 import androidx.ui.material.*
 import androidx.ui.savedinstancestate.savedInstanceState
@@ -70,8 +70,11 @@ fun Login(viewModel: MainViewModel) {
     val loginResponse by viewModel.loginResponse.observeAsState()
 
     // UI que contiene el campo de email y password
+
+
     Column(
-            modifier = Modifier.padding(bottom = 15.dp)
+        modifier = Modifier.padding(bottom = 15.dp),
+        horizontalGravity = Alignment.CenterHorizontally
     ) {
 
         TopAppBar(title = {
@@ -103,9 +106,8 @@ fun Login(viewModel: MainViewModel) {
 
         // Boton de login, el cual hace la peticion del token
         Button(
-                modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={viewModel.tryToLogin(email,password)},
-                backgroundColor = Color.Red
+            modifier = Modifier.padding(start = 15.dp,top = 15.dp) ,
+            onClick ={viewModel.tryToLogin(email,password)}
         ){Text("Login")}
 
 
@@ -123,9 +125,30 @@ fun Login(viewModel: MainViewModel) {
 
         // Si ocurrio un error
         if(!loginResponse?.message.isNullOrBlank()){
-
-            loginResponse?.error?.forEach {
-                Text(it)
+            val openDialog = state { true }
+            if (openDialog.value) {
+                AlertDialog(
+                    onCloseRequest = {
+                        openDialog.value = false
+                    },
+                    title = {
+                        Text("ERROR")
+                    },
+                    text = {
+                        loginResponse?.error?.forEach {
+                            Text(it)
+                        }
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                openDialog.value = false
+                            }){
+                            Text("Ok")
+                        }
+                    },
+                    buttonLayout = AlertDialogButtonLayout.Stacked
+                )
             }
         }
 
