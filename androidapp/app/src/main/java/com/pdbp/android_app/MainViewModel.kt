@@ -81,7 +81,7 @@ class MainViewModel(
         get() = _registroResponse
 
     // Funcion que retorna la respuesta del registro de una visita(el cual es la misma visita)
-    fun registro(parentesco: String, empresa_reparto: Boolean, persona_id: String, propiedad_id: String) {
+    fun registro(parentesco: String, empresa_reparto: Boolean, persona_id: String, propiedad_id: String, token: String) {
         _registroResponse.value = null
 
         viewModelScope.launch {
@@ -96,7 +96,7 @@ class MainViewModel(
                     empresa_reparto_string = "SI"
                 }
 
-                val response = apiRestEndPoints.registroVisitas(dateString, parentesco, empresa_reparto_string, persona_id, propiedad_id)
+                val response = apiRestEndPoints.registroVisitas(dateString, parentesco, empresa_reparto_string, persona_id, propiedad_id, "Bearer $token")
                 _registroResponse.value = response
                 Log.d("_registroResponse:", _registroResponse.value.toString())
 
@@ -112,12 +112,13 @@ class MainViewModel(
         get() = _personaResponse
 
     // Funcion que retorna la respuesta cuando registramos una persona
-    fun registroPersona(rut: String, nombre: String, telefono: String, email: String) {
+    fun registroPersona(rut: String, nombre: String, telefono: String, email: String, token: String) {
         _personaResponse.value = null
 
         viewModelScope.launch {
             try{
-                val response = apiRestEndPoints.registroPersona(rut, nombre, telefono, email)
+
+                val response = apiRestEndPoints.registroPersona(rut, nombre, telefono, email, "Bearer $token")
                 _personaResponse.value = response
 
             } catch (e: Exception) {

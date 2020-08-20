@@ -25,18 +25,18 @@ Route::post('/register','Api\AuthController@register');
 Route::post('/login','Api\AuthController@login');
 
 
-Route::apiResource('/comunidad','Api\ComunidadController');
-Route::apiResource('/persona','Api\PersonaController');
-Route::apiResource('/propiedad','Api\PropiedadController');
+Route::apiResource('/comunidad','Api\ComunidadController')->middleware('auth:api');
+Route::apiResource('/persona','Api\PersonaController')->middleware('auth:api');
+Route::apiResource('/propiedad','Api\PropiedadController')->middleware('auth:api');
 
 // Cambiamos el nombre del parametro a visita, excepto pero el show.
 Route::apiResource('/registro','Api\VisitaController')
     ->except(['show'])
-    ->parameters(['registro' => 'visita']);
+    ->parameters(['registro' => 'visita'])->middleware('auth:api');
 
 // Cambiamos el nombre del parametro a numero_propiedad, solo para el show.
 Route::apiResource('/registro','Api\VisitaController')
     ->only(['show'])
-    ->parameters(['registro' => 'numero_propiedad']);
+    ->parameters(['registro' => 'numero_propiedad'])->middleware('auth:api');
 
 

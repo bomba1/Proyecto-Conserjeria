@@ -4,10 +4,7 @@ import com.pdbp.android_app.data.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * The interface for routes
@@ -33,7 +30,8 @@ interface ApiRestEndPoints {
                                 @Field("parentesco") parentesco: String,
                                 @Field("empresa_reparto") empresa_reparto: String,
                                 @Field("persona_rut") persona_rut: String,
-                                @Field("propiedad_numero") propiedad_numero: String) : RegistroResponse
+                                @Field("propiedad_numero") propiedad_numero: String,
+                                @Header("Authorization") token: String) : RegistroResponse
 
     //Route to store a visita
     @POST("persona")
@@ -41,7 +39,8 @@ interface ApiRestEndPoints {
     suspend fun registroPersona(@Field("rut") rut: String ,
                                 @Field("nombre") nombre: String,
                                 @Field("telefono") telefono: String,
-                                @Field("email") email: String) : PersonaResponse
+                                @Field("email") email: String,
+                                @Header("Authorization") token: String) : PersonaResponse
 
     //Route to login to the server
     @POST("login")
@@ -54,7 +53,7 @@ interface ApiRestEndPoints {
 
 //Here we obtain de url from the server, to connect to web
 val retrofit = Retrofit.Builder()
-    .baseUrl(" http://192.168.1.90:8000/api/")
+    .baseUrl(" http://192.168.1.85:8000/api/")
     .client(OkHttpClient())
     .addConverterFactory(GsonConverterFactory.create())
     .build()

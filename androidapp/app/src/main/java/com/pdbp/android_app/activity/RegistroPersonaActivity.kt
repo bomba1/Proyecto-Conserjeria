@@ -17,19 +17,16 @@ import androidx.ui.foundation.Text
 import androidx.ui.graphics.Color
 import androidx.ui.input.ImeAction
 import androidx.ui.layout.Column
+import androidx.ui.layout.padding
 import androidx.ui.livedata.observeAsState
 import androidx.ui.material.Button
-import androidx.ui.material.Checkbox
-import com.pdbp.android_app.MainViewModel
-import com.pdbp.android_app.apiRestEndPoints
-import com.pdbp.android_app.data.LoginResponse
-import com.pdbp.android_app.ui.AndroidappTheme
-import androidx.ui.layout.Row
-import androidx.ui.layout.padding
 import androidx.ui.material.OutlinedTextField
 import androidx.ui.material.TopAppBar
 import androidx.ui.savedinstancestate.savedInstanceState
 import androidx.ui.unit.dp
+import com.pdbp.android_app.MainViewModel
+import com.pdbp.android_app.apiRestEndPoints
+import com.pdbp.android_app.ui.AndroidappTheme
 
 class RegistroPersonaActivity() : ComponentActivity() {
 
@@ -99,7 +96,7 @@ fun RegistroPersona(viewModel: MainViewModel){
                 modifier = Modifier.padding(start = 15.dp),
                 value = telefono,
                 onValueChange = { telefono = it},
-                placeholder = { Text("99999999") },
+                placeholder = { Text("9XXXXXXXX") },
                 label = { Text("Telefono Persona") }
         )
 
@@ -114,7 +111,7 @@ fun RegistroPersona(viewModel: MainViewModel){
 
         // Boton el cual hara la peticion del registro y mandara un post al servidor
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={viewModel.registroPersona(rut, nombre, telefono, email)},
+                onClick ={viewModel.registroPersona(rut, nombre, telefono, email, LoginActivity.token)},
                 backgroundColor = Color.Blue) {
             Text("Registrar Persona")
         }
@@ -153,12 +150,13 @@ fun RegistroPersona(viewModel: MainViewModel){
     }
 
 }
+
 @Composable
 fun abrirRegistroVisita() {
     // Se obtienen los datos para crear una nueva actividad
     val context = ContextAmbient.current
     val intent = Intent(context, RegistroActivity::class.java)
-
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
     ContextCompat.startActivity(context, intent, null)
 }
 

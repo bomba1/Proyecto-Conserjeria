@@ -122,7 +122,7 @@ fun Registro(viewModel: MainViewModel){
 
         // Boton el cual hara la peticion del registro y mandara un post al servidor
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={viewModel.registro(parentesco,empresa_reparto,persona_rut,propiedad_numero)},
+                onClick ={viewModel.registro(parentesco,empresa_reparto,persona_rut,propiedad_numero, LoginActivity.token)},
                 backgroundColor = Color.Blue) {
             Text("Registrar Visita")
         }
@@ -167,6 +167,5 @@ fun abrirRegistroPersona() {
     // Se obtienen los datos para crear una nueva actividad
     val context = ContextAmbient.current
     val intent = Intent(context, RegistroPersonaActivity::class.java)
-
     ContextCompat.startActivity(context, intent, null)
 }
