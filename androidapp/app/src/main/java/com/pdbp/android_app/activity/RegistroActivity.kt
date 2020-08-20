@@ -11,6 +11,7 @@ import androidx.compose.state
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.ui.core.Alignment
 import androidx.ui.core.ContextAmbient
 import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
@@ -21,7 +22,6 @@ import androidx.ui.layout.Column
 import androidx.ui.livedata.observeAsState
 import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
-import com.pdbp.android_app.data.LoginResponse
 import com.pdbp.android_app.ui.AndroidappTheme
 import androidx.ui.layout.Row
 import androidx.ui.layout.padding
@@ -61,7 +61,9 @@ class RegistroActivity() : ComponentActivity() {
         viewModel.getPersonas()
         viewModel.getPropiedades()
         viewModel.getVisitas()
+
     }
+
 }
 
 @Composable
@@ -73,7 +75,8 @@ fun Registro(viewModel: MainViewModel){
 
     // UI que contiene los campos a llenar para el registro de visitas
     Column(
-            modifier = Modifier.padding(bottom = 15.dp)
+            modifier = Modifier.padding(bottom = 15.dp),
+            horizontalGravity = Alignment.CenterHorizontally
     ) {
 
         TopAppBar(title = {
@@ -127,24 +130,47 @@ fun Registro(viewModel: MainViewModel){
                 label = { Text("Numero Propiedad") }
         )
 
+
         // Boton el cual hara la peticion del registro y mandara un post al servidor
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={viewModel.registro(parentesco,empresa_reparto,persona_rut,propiedad_numero, LoginActivity.token)},
-                backgroundColor = Color.Blue) {
-            Text("Registrar Visita")
-        }
+                onClick ={viewModel.registro(parentesco,empresa_reparto,persona_rut,propiedad_numero, LoginActivity.token)}
+        ) { Text("Registrar Visita") }
 
         // Boton para ir a registrar una persona
         Button(
                 modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={ registroPersonaActivity = true },
-                backgroundColor = Color.Red
-        ){Text("Registrar Persona")}
+                onClick ={ registroPersonaActivity = true }
+        ) {Text("Registrar Persona")}
 
         // Si se obtiene la respuesta al registro, abrimos
         if(registroResponse?.visita != null){
 
-            Text(text = "La visita fue ingresada con exito")
+            val openDialog = state { true }
+
+            if (openDialog.value) {
+                AlertDialog(
+                        onCloseRequest = {
+                            openDialog.value = false
+                        },
+                        title = {
+                            Text("EXITO")
+                        },
+                        text = {
+                            Text(text = "La visita fue ingresada con exito")
+                        },
+                        confirmButton = {
+                            Button(
+                                    onClick = {
+                                        openDialog.value = false
+                                    }){
+                                Text("Ok")
+                            }
+                        },
+                        buttonLayout = AlertDialogButtonLayout.Stacked
+                )
+
+            }
+
             parentesco = ""
             empresa_reparto = false
             persona_rut = ""
