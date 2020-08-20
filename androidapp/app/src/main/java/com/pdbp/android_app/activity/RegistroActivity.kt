@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.Composable
 import androidx.compose.getValue
 import androidx.compose.setValue
+import androidx.compose.state
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -18,16 +19,13 @@ import androidx.ui.graphics.Color
 import androidx.ui.input.ImeAction
 import androidx.ui.layout.Column
 import androidx.ui.livedata.observeAsState
-import androidx.ui.material.Button
-import androidx.ui.material.Checkbox
 import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
 import com.pdbp.android_app.data.LoginResponse
 import com.pdbp.android_app.ui.AndroidappTheme
 import androidx.ui.layout.Row
 import androidx.ui.layout.padding
-import androidx.ui.material.OutlinedTextField
-import androidx.ui.material.TopAppBar
+import androidx.ui.material.*
 import androidx.ui.savedinstancestate.savedInstanceState
 import androidx.ui.unit.dp
 
@@ -35,20 +33,28 @@ class RegistroActivity() : ComponentActivity() {
 
     //ViewModel Template
     private val viewModel by viewModels<MainViewModel> {
+
         object : ViewModelProvider.Factory{
+
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+
                 return MainViewModel(apiRestEndPoints) as T
+
             }
 
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
+
             AndroidappTheme {
                 Registro(viewModel = viewModel)
             }
+
         }
 
         //Obtenemos los datos llenar los modelos
@@ -64,6 +70,7 @@ fun Registro(viewModel: MainViewModel){
     // Obsevamos si se obtiene la respuesta luego de hacer un registro de visita(la cual es la misma visita)
     val registroResponse by viewModel.registroResponse.observeAsState()
     var registroPersonaActivity by savedInstanceState { false }
+
     // UI que contiene los campos a llenar para el registro de visitas
     Column(
             modifier = Modifier.padding(bottom = 15.dp)
@@ -153,9 +160,33 @@ fun Registro(viewModel: MainViewModel){
         // Si ocurrio un error
         if(registroResponse?.message.equals("Validation Error")){
 
-            registroResponse?.error?.forEach {
-                Text(it)
+            val openDialog = state { true }
+
+            if (openDialog.value) {
+                AlertDialog(
+                        onCloseRequest = {
+                            openDialog.value = false
+                        },
+                        title = {
+                            Text("ERROR")
+                        },
+                        text = {
+                            registroResponse?.error?.forEach {
+                                Text(it)
+                            }
+                        },
+                        confirmButton = {
+                            Button(
+                                    onClick = {
+                                        openDialog.value = false
+                                    }){
+                                Text("Ok")
+                            }
+                        },
+                        buttonLayout = AlertDialogButtonLayout.Stacked
+                )
             }
+
         }
 
     }
@@ -164,8 +195,10 @@ fun Registro(viewModel: MainViewModel){
 
 @Composable
 fun abrirRegistroPersona() {
+
     // Se obtienen los datos para crear una nueva actividad
     val context = ContextAmbient.current
     val intent = Intent(context, RegistroPersonaActivity::class.java)
     ContextCompat.startActivity(context, intent, null)
+
 }
