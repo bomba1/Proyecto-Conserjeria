@@ -43,22 +43,6 @@ class RegistroActivity() : ComponentActivity() {
         }
     }
 
-    // Objeto que contiene datos utiles en el registro, sobretodo el token
-    companion object {
-        var name: String =""
-        var email: String =""
-        var token : String = ""
-
-        // funcion para asignar los datos
-        fun setLoginData(loginResponse: LoginResponse?) {
-            if (loginResponse != null) {
-                this.name = loginResponse.user.name
-                this.email = loginResponse.user.email
-                this.token = loginResponse.token
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

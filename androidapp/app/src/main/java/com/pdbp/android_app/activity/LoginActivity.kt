@@ -27,6 +27,7 @@ import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
+import com.pdbp.android_app.data.LoginResponse
 import com.pdbp.android_app.ui.AndroidappTheme
 
 
@@ -40,6 +41,23 @@ class LoginActivity : ComponentActivity() {
             }
 
         }
+    }
+
+    // Objeto que contiene datos utiles en el registro, sobretodo el token
+    companion object {
+        var name: String =""
+        var email: String =""
+        var token : String = ""
+
+        // funcion para asignar los datos
+        fun setLoginData(loginResponse: LoginResponse?) {
+            if (loginResponse != null) {
+                this.name = loginResponse.user.name
+                this.email = loginResponse.user.email
+                this.token = loginResponse.token
+            }
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,8 +136,8 @@ fun Login(viewModel: MainViewModel) {
             val context = ContextAmbient.current
             val intent = Intent(context,RegistroActivity::class.java)
 
-            // Entregamos los datos del usuario que ingreso
-            RegistroActivity.setLoginData(loginResponse)
+            // Guardamos los datos del usuario y su token
+            LoginActivity.setLoginData(loginResponse)
             startActivity(context,intent,null)
         }
 
