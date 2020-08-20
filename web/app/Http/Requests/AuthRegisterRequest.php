@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AuthRegisterRequest extends FormRequest
 {
@@ -45,10 +47,25 @@ class AuthRegisterRequest extends FormRequest
             'email.email'  => 'El correo no es válido',
             'email.unique'  => 'El correo ya esta en uso',
             'password.required'  => 'Se necesita una contraseña',
-            'password.min'  => 'Se necesita un mínimo de 3 caracteres en la contraseña',
+            'password.min'  => 'Se necesita un mínimo de 8 caracteres en la contraseña',
             'password.max'  => 'Se necesita un máximo de 255 caracteres en la contraseña',
             'password.confirmed'  => 'Se debe confirmar la contraseña',
         ];
+    }
+
+    /**
+     * FailedValidation [Overriding the event validator for custom error response].
+     *
+     * @param Validator $validator
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'Validation Error',
+                'error' => $validator->errors()->all()
+            ])
+        );
     }
 
 

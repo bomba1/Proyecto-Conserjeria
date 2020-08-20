@@ -34,7 +34,7 @@ class PersonaStoreRequest extends FormRequest
         return [
             'rut' => 'required|cl_rut|k_validator|unique:personas,rut|regex:/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/',
             'nombre' => 'required|regex:/^(?!\s*$)[-a-zA-Z]{1,50}$/',
-            'telefono' => 'required|numeric|between:40000000,99999999',
+            'telefono' => 'required|numeric|between:900000000,999999999',
             'email' => 'required|email:rfc,dns|unique:personas,email',
         ];
     }
@@ -55,7 +55,7 @@ class PersonaStoreRequest extends FormRequest
             'nombre.required'  => 'Se necesita un nombre',
             'telefono.required' =>'El teléfono debe ser completado',
             'telefono.numeric' =>'El teléfono debe ser un número',
-            'telefono.between' =>'El teléfono indicado no existe',
+            'telefono.between' =>'El teléfono indicado no existe(formato: 9XXXXXXXX)',
             'email.required'  => 'Se necesita un correo',
             'email.email'  => 'El correo no es válido',
             'email.unique'  => 'El correo ya esta en uso',

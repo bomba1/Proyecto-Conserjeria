@@ -7,8 +7,6 @@ use App\Http\Requests\PersonaStoreRequest;
 use App\Http\Requests\PersonaUpdateRequest;
 use App\Http\Resources\PersonaResource;
 use App\Persona;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 /**
  * Class PersonaController

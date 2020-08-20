@@ -7,7 +7,6 @@ use App\Http\Requests\PropiedadStoreRequest;
 use App\Http\Requests\PropiedadUpdateRequest;
 use App\Http\Resources\PropiedadResource;
 use App\Propiedad;
-use Illuminate\Http\Request;
 
 class PropiedadController extends Controller
 {

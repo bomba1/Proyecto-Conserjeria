@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ComunidadStoreRequest;
 use App\Http\Requests\ComunidadUpdateRequest;
 use App\Http\Resources\ComunidadResource;
-use Illuminate\Http\Request;
 
 class ComunidadController extends Controller
 {
