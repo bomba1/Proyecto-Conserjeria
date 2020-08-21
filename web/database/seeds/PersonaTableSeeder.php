@@ -1,4 +1,27 @@
 <?php
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Leon-Salas-Santander
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 use App\Persona;
 use Illuminate\Database\Seeder;
@@ -15,22 +38,22 @@ class PersonaTableSeeder extends Seeder
         Persona::create([
             'nombre' => 'asd',
             'rut' => '18.791.036-6',
-            'telefono' => '63887303',
-            'email' => 'mgn21@gmail.com'
+            'telefono' => '963887303',
+            'email' => 'hola@gmail.com'
         ]);
 
         Persona::create([
             'nombre' => 'asdf',
             'rut' => '16.311.926-9',
-            'telefono' => '63887303',
-            'email' => 'mgn211@gmail.com'
+            'telefono' => '963887303',
+            'email' => 'test@gmail.com'
         ]);
 
         Persona::create([
             'nombre' => 'asdg',
             'rut' => '24.802.658-8',
-            'telefono' => '63887303',
-            'email' => 'mgn21111@gmail.com'
+            'telefono' => '963887303',
+            'email' => 'test2@gmail.com'
         ]);
     }
 }

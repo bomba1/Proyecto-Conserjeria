@@ -1,4 +1,27 @@
 <?php
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Leon-Salas-Santander
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 namespace App\Http\Controllers\Api;
 
@@ -6,8 +29,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\VisitaStoreRequest;
 use App\Http\Requests\VisitaUpdateRequest;
 use App\Http\Resources\VisitaResource;
+use App\Persona;
 use App\Propiedad;
 use App\Visita;
+use Illuminate\Http\Request;
 
 class VisitaController extends Controller
 {
@@ -35,8 +60,19 @@ class VisitaController extends Controller
      */
     public function store(VisitaStoreRequest $request)
     {
+        $id_persona = Persona::where('rut', $request->persona_rut)->first()->id;
+        $id_propiedad = Propiedad::where('numero', $request->propiedad_numero)->first()->id;
+
+        $newRequest = new Request([
+            'fecha'   => $request->fecha,
+            'parentesco'  => $request->parentesco,
+            'empresa_reparto'  => $request->empresa_reparto,
+            'persona_id'  => $id_persona,
+            'propiedad_id'  => $id_propiedad,
+        ]);
+
         // Se crea la visita
-        $visita = Visita::create($request->all());
+        $visita = Visita::create($newRequest->all());
 
         return response([
             'message' => 'Created Successfully',

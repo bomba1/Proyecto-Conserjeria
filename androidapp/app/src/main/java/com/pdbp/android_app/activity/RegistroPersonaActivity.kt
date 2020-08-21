@@ -42,20 +42,19 @@ import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
 import androidx.ui.input.ImeAction
 import androidx.ui.layout.Column
-import androidx.ui.livedata.observeAsState
-import com.pdbp.android_app.MainViewModel
-import com.pdbp.android_app.apiRestEndPoints
-import com.pdbp.android_app.ui.AndroidappTheme
-import androidx.ui.layout.Row
 import androidx.ui.layout.padding
+import androidx.ui.livedata.observeAsState
 import androidx.ui.material.*
 import androidx.ui.savedinstancestate.savedInstanceState
 import androidx.ui.unit.dp
+import com.pdbp.android_app.MainViewModel
+import com.pdbp.android_app.apiRestEndPoints
+import com.pdbp.android_app.ui.AndroidappTheme
 
 /**
- * Class Registro Activity
+ * Class that simulates a window RegistroPersona
  */
-class RegistroActivity() : ComponentActivity() {
+class RegistroPersonaActivity() : ComponentActivity() {
 
     //ViewModel Template
     private val viewModel by viewModels<MainViewModel> {
@@ -63,9 +62,7 @@ class RegistroActivity() : ComponentActivity() {
         object : ViewModelProvider.Factory{
 
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-
                 return MainViewModel(apiRestEndPoints) as T
-
             }
 
         }
@@ -75,10 +72,11 @@ class RegistroActivity() : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
         setContent {
 
             AndroidappTheme {
-                Registro(viewModel = viewModel)
+                RegistroPersona(viewModel = viewModel)
             }
 
         }
@@ -88,86 +86,79 @@ class RegistroActivity() : ComponentActivity() {
 }
 
 /**
- * Function that register a Visita
+ * Function that does the register of Persona
  */
 @Composable
-fun Registro(viewModel: MainViewModel){
+fun RegistroPersona(viewModel: MainViewModel){
 
-    // We see if we obtain a response from the web server
-    val registroResponse by viewModel.registroResponse.observeAsState()
-    var registroPersonaActivity by savedInstanceState { false }
-
-    // UI that contains the data from visita
+    // Seeing if we obtain a response from the server
+    val personaResponse by viewModel.personaResponse.observeAsState()
+    var registroActivity by savedInstanceState { false }
+    // UI that contains the fields from Persona
     Column(
             modifier = Modifier.padding(bottom = 15.dp),
             horizontalGravity = Alignment.CenterHorizontally
     ) {
 
         TopAppBar(title = {
-            Text("REGISTRO")
+            Text("REGISTRO PERSONA")
         })
 
 
         // Declaring inputs as dinamic variables
-        var parentesco by savedInstanceState { "" }
-        var empresa_reparto by savedInstanceState { false }
-        var persona_rut by savedInstanceState { "" }
-        var propiedad_numero by savedInstanceState { "" }
+        var rut by savedInstanceState { "" }
+        var nombre by savedInstanceState { "" }
+        var telefono by savedInstanceState { "" }
+        var email by savedInstanceState { "" }
 
         OutlinedTextField(
                 imeAction = ImeAction.Done,
                 modifier = Modifier.padding(start = 15.dp),
-                value = parentesco,
-                onValueChange = { parentesco = it},
-                placeholder = { Text("hermano") },
-                label = { Text("Parentesco") }
-        )
-
-        Row(
-                modifier = Modifier.padding(start = 15.dp,top = 5.dp)
-        ) {
-            Checkbox(
-                    checked = empresa_reparto,
-                    onCheckedChange = { empresa_reparto = it }
-            )
-            Text(
-                    text = "Empresa Reparto",
-                    modifier = Modifier.padding(start = 8.dp)
-            )
-        }
-
-        OutlinedTextField(
-                imeAction = ImeAction.Done,
-                modifier = Modifier.padding(start = 15.dp),
-                value = persona_rut,
-                onValueChange = { persona_rut = it},
+                value = rut,
+                onValueChange = { rut = it},
                 placeholder = { Text("12.345.678-9") },
-                label = { Text("Rut Persona") }
+                label = { Text("Rut") }
         )
 
         OutlinedTextField(
                 imeAction = ImeAction.Done,
                 modifier = Modifier.padding(start = 15.dp),
-                value = propiedad_numero,
-                onValueChange = { propiedad_numero = it},
-                placeholder = { Text("123456") },
-                label = { Text("Numero Propiedad") }
+                value = nombre,
+                onValueChange = { nombre = it},
+                placeholder = { Text("Juanito Perez") },
+                label = { Text("Nombre Persona") }
         )
 
+        OutlinedTextField(
+                imeAction = ImeAction.Done,
+                modifier = Modifier.padding(start = 15.dp),
+                value = telefono,
+                onValueChange = { telefono = it},
+                placeholder = { Text("9XXXXXXXX") },
+                label = { Text("Telefono Persona") }
+        )
 
-        // Button that does the request to the server
+        OutlinedTextField(
+                imeAction = ImeAction.Done,
+                modifier = Modifier.padding(start = 15.dp),
+                value = email,
+                onValueChange = { email = it},
+                placeholder = { Text("ejemplo@gmail.com") },
+                label = { Text("Email Persona") }
+        )
+
+        // Button with the purpose getting a request from the server
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={viewModel.registro(parentesco,empresa_reparto,persona_rut,propiedad_numero, LoginActivity.token)}
-        ) { Text("Registrar Visita") }
+                onClick ={viewModel.registroPersona(rut, nombre, telefono, email, LoginActivity.token)})
+        { Text("Registrar Persona") }
 
-        // Button with the purpose of registering a Persona
-        Button(
-                modifier = Modifier.padding(start = 15.dp,top = 15.dp),
-                onClick ={ registroPersonaActivity = true }
-        ) {Text("Registrar Persona")}
+        // Button that let us go back to the activity RegistroActivity
+        Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
+                onClick ={ registroActivity = true })
+        { Text("Volver a Registro Visita") }
 
-        // If we obtain the response, a pop up shows
-        if(registroResponse?.visita != null){
+        // If we obtain the request
+        if(personaResponse?.persona != null){
 
             val openDialog = state { true }
 
@@ -180,7 +171,7 @@ fun Registro(viewModel: MainViewModel){
                             Text("EXITO")
                         },
                         text = {
-                            Text(text = "La visita fue ingresada con exito")
+                            Text(text = "La persona fue ingresada con exito")
                         },
                         confirmButton = {
                             Button(
@@ -195,20 +186,20 @@ fun Registro(viewModel: MainViewModel){
 
             }
 
-            parentesco = ""
-            empresa_reparto = false
-            persona_rut = ""
-            propiedad_numero = ""
+            rut = ""
+            nombre = ""
+            telefono = ""
+            email = ""
 
         }
 
-        if (registroPersonaActivity) {
-            registroPersonaActivity = false
-            abrirRegistroPersona()
+        if (registroActivity){
+            registroActivity = false
+            abrirRegistroVisita()
         }
 
-        // If we obtain a error from the requests
-        if(registroResponse?.message.equals("Validation Error")){
+        // If an error occurs
+        if(personaResponse?.message.equals("Validation Error")){
 
             val openDialog = state { true }
 
@@ -221,7 +212,7 @@ fun Registro(viewModel: MainViewModel){
                             Text("ERROR")
                         },
                         text = {
-                            registroResponse?.error?.forEach {
+                            personaResponse?.error?.forEach {
                                 Text(it)
                             }
                         },
@@ -235,6 +226,7 @@ fun Registro(viewModel: MainViewModel){
                         },
                         buttonLayout = AlertDialogButtonLayout.Stacked
                 )
+
             }
 
         }
@@ -244,14 +236,14 @@ fun Registro(viewModel: MainViewModel){
 }
 
 /**
- * Function that opens a new activity
+ * Function that starts a new activity
  */
 @Composable
-fun abrirRegistroPersona() {
-
-    // Gathering data to open new activity
+fun abrirRegistroVisita() {
+    // Obtaining the data to start new activity
     val context = ContextAmbient.current
-    val intent = Intent(context, RegistroPersonaActivity::class.java)
+    val intent = Intent(context, RegistroActivity::class.java)
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
     ContextCompat.startActivity(context, intent, null)
-
 }
+
