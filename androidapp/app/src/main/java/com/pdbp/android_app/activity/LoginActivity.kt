@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Leon-Salas-Santander
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.pdbp.android_app.activity
 
 import android.content.Intent
@@ -29,7 +53,9 @@ import com.pdbp.android_app.apiRestEndPoints
 import com.pdbp.android_app.data.LoginResponse
 import com.pdbp.android_app.ui.AndroidappTheme
 
-
+/**
+ * Class Login Activity
+ */
 class LoginActivity : ComponentActivity() {
 
     //ViewModel Template
@@ -42,13 +68,13 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
-    // Objeto que contiene datos utiles en el registro, sobretodo el token
+    // Object that contains useful data from the register, like the token
     companion object {
         var name: String =""
         var email: String =""
         var token : String = ""
 
-        // funcion para asignar los datos
+        // function that set the data above
         fun setLoginData(loginResponse: LoginResponse?) {
             if (loginResponse != null) {
                 this.name = loginResponse.user.name
@@ -70,6 +96,9 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Function that shows LOGIN on top
+ */
 @Preview
 @Composable
 fun MyApp(){
@@ -80,15 +109,16 @@ fun MyApp(){
     }
 }
 
+/**
+ * Function that does the login
+ */
 @Composable
 fun Login(viewModel: MainViewModel) {
 
-    // Observamos si se obtiene el token
+    // We see if the token is obtained
     val loginResponse by viewModel.loginResponse.observeAsState()
 
-    // UI que contiene el campo de email y password
-
-
+    // UI that contains the email and password
     Column(
         modifier = Modifier.padding(bottom = 15.dp),
         horizontalGravity = Alignment.CenterHorizontally
@@ -99,7 +129,7 @@ fun Login(viewModel: MainViewModel) {
         })
 
 
-        // Declaramos los input como variables dinamicas
+        // Declaring the inputs as dinamic variables
         var email by savedInstanceState { "" }
         var password by savedInstanceState { "" }
 
@@ -121,27 +151,27 @@ fun Login(viewModel: MainViewModel) {
                 label = { Text("Password") }
         )
 
-        // Boton de login, el cual hace la peticion del token
+        // Login button that does the request
         Button(
             modifier = Modifier.padding(start = 15.dp,top = 15.dp) ,
             onClick ={viewModel.tryToLogin(email,password)}
         ){Text("Login")}
 
 
-        // Si se obtiene el token
+        // If we obtain the token
         if(!loginResponse?.token.isNullOrBlank()){
 
-            // Se obtienen los datos para crear una nueva actividad
+            // Getting necesary data to start new activity
             val context = ContextAmbient.current
             val intent = Intent(context,RegistroActivity::class.java)
 
-            // Guardamos los datos del usuario y su token
+            // We set the data for later use(token)
             LoginActivity.setLoginData(loginResponse)
             startActivity(context,intent,null)
 
         }
 
-        // Si ocurrio un error
+        // If an error occurs
         if(!loginResponse?.message.isNullOrBlank()){
 
             val openDialog = state { true }

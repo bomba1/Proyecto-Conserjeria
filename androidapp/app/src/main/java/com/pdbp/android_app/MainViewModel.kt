@@ -1,15 +1,34 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Leon-Salas-Santander
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.pdbp.android_app
 
-import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.ui.core.ContextAmbient
-import com.pdbp.android_app.activity.RegistroActivity
-import com.pdbp.android_app.activity.RegistroPersonaActivity
 import com.pdbp.android_app.data.*
 import com.pdbp.android_app.utils.getCurrentDateTime
 import com.pdbp.android_app.utils.toString
@@ -22,65 +41,12 @@ class MainViewModel(
     private val apiRestEndPoints: ApiRestEndPoints
 ) : ViewModel() {
 
-    // Variables de personas
-    private val _personasData = MutableLiveData<List<Persona>>()
-    val personasData: LiveData<List<Persona>>
-        get() = _personasData
-
-    // Funcion que retorna personas
-    fun getPersonas() {
-        viewModelScope.launch {
-            try{
-                val personas = apiRestEndPoints.findPersonas()
-                _personasData.value = personas.personas
-
-            } catch (e: Exception) {
-                Log.d("Service Error:", e.toString())
-            }
-        }
-    }
-
-    // Variables de propiedades
-    private val _propiedadesData = MutableLiveData<List<Propiedad>>()
-    val propiedadesData: LiveData<List<Propiedad>>
-        get() = _propiedadesData
-
-    // Funcion que retorna propiedades
-    fun getPropiedades() {
-        viewModelScope.launch {
-            try{
-                val propiedades = apiRestEndPoints.findPropiedades()
-                _propiedadesData.value = propiedades.propiedades
-            } catch (e: Exception) {
-                Log.d("Service Error:", e.toString())
-            }
-        }
-    }
-
-    // Variables de Visita
-    private val _visitasData = MutableLiveData<List<Visita>>()
-    val visitasData: LiveData<List<Visita>>
-        get() = _visitasData
-
-    // Funcion que retorna propiedades
-    fun getVisitas() {
-        viewModelScope.launch {
-            try{
-                val visitas = apiRestEndPoints.findVisitas()
-                _visitasData.value = visitas.visitas
-
-            } catch (e: Exception) {
-                Log.d("Service Error:", e.toString())
-            }
-        }
-    }
-
-    // Variables de registro de una visita
+    // Variables from registro visita
     private val _registroResponse = MutableLiveData<RegistroResponse>()
     val registroResponse: LiveData<RegistroResponse>
         get() = _registroResponse
 
-    // Funcion que retorna la respuesta del registro de una visita(el cual es la misma visita)
+    // Function that returns the response of visita
     fun registro(parentesco: String, empresa_reparto: Boolean, persona_id: String, propiedad_id: String, token: String) {
         _registroResponse.value = null
 
@@ -106,12 +72,12 @@ class MainViewModel(
         }
     }
 
-    // Variables del registro de una persona
+    // Variables from persona register
     private val _personaResponse = MutableLiveData<PersonaResponse>()
     val personaResponse: LiveData<PersonaResponse>
         get() = _personaResponse
 
-    // Funcion que retorna la respuesta cuando registramos una persona
+    // Function that returns the response of persona
     fun registroPersona(rut: String, nombre: String, telefono: String, email: String, token: String) {
         _personaResponse.value = null
 
@@ -127,12 +93,12 @@ class MainViewModel(
         }
     }
 
-    // Variables de login
+    // Variables of login
     private val _loginResponse = MutableLiveData<LoginResponse>()
     val loginResponse: LiveData<LoginResponse>
         get() = _loginResponse
 
-    // Funcion que retorna la respuesta del login
+    // Function that returns the response of login
     fun tryToLogin(email: String, password: String) {
         _loginResponse.value = null
 
@@ -140,7 +106,6 @@ class MainViewModel(
             try{
                 val response = apiRestEndPoints.login(email, password)
                 _loginResponse.value = response
-                //Log.d("_loginResponse:", _loginResponse.value.toString())
 
             } catch (e: Exception) {
                 Log.d("Service Error:", e.toString())

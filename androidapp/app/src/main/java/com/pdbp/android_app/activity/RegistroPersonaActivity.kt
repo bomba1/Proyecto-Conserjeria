@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Leon-Salas-Santander
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.pdbp.android_app.activity
 
 import android.content.Intent
@@ -27,6 +51,9 @@ import com.pdbp.android_app.MainViewModel
 import com.pdbp.android_app.apiRestEndPoints
 import com.pdbp.android_app.ui.AndroidappTheme
 
+/**
+ * Class that simulates a window RegistroPersona
+ */
 class RegistroPersonaActivity() : ComponentActivity() {
 
     //ViewModel Template
@@ -58,13 +85,16 @@ class RegistroPersonaActivity() : ComponentActivity() {
 
 }
 
+/**
+ * Function that does the register of Persona
+ */
 @Composable
 fun RegistroPersona(viewModel: MainViewModel){
 
-    // Observamos si se obtiene la respuesta luego de hacer un registro de persona
+    // Seeing if we obtain a response from the server
     val personaResponse by viewModel.personaResponse.observeAsState()
     var registroActivity by savedInstanceState { false }
-    // UI que contiene los campos a llenar para el registro de personas
+    // UI that contains the fields from Persona
     Column(
             modifier = Modifier.padding(bottom = 15.dp),
             horizontalGravity = Alignment.CenterHorizontally
@@ -75,7 +105,7 @@ fun RegistroPersona(viewModel: MainViewModel){
         })
 
 
-        // Declaramos los input como variables dinamicas
+        // Declaring inputs as dinamic variables
         var rut by savedInstanceState { "" }
         var nombre by savedInstanceState { "" }
         var telefono by savedInstanceState { "" }
@@ -117,17 +147,17 @@ fun RegistroPersona(viewModel: MainViewModel){
                 label = { Text("Email Persona") }
         )
 
-        // Boton el cual hara la peticion del registro y mandara un post al servidor
+        // Button with the purpose getting a request from the server
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
                 onClick ={viewModel.registroPersona(rut, nombre, telefono, email, LoginActivity.token)})
         { Text("Registrar Persona") }
 
-        // Boton el cual hara nos dejara volver a la actividad Registro Visita
+        // Button that let us go back to the activity RegistroActivity
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
                 onClick ={ registroActivity = true })
         { Text("Volver a Registro Visita") }
 
-        // Si se obtiene la respuesta al registro
+        // If we obtain the request
         if(personaResponse?.persona != null){
 
             val openDialog = state { true }
@@ -168,7 +198,7 @@ fun RegistroPersona(viewModel: MainViewModel){
             abrirRegistroVisita()
         }
 
-        // Si ocurrio un error
+        // If an error occurs
         if(personaResponse?.message.equals("Validation Error")){
 
             val openDialog = state { true }
@@ -205,9 +235,12 @@ fun RegistroPersona(viewModel: MainViewModel){
 
 }
 
+/**
+ * Function that starts a new activity
+ */
 @Composable
 fun abrirRegistroVisita() {
-    // Se obtienen los datos para crear una nueva actividad
+    // Obtaining the data to start new activity
     val context = ContextAmbient.current
     val intent = Intent(context, RegistroActivity::class.java)
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

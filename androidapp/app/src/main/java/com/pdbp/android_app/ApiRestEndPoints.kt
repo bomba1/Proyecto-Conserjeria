@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Leon-Salas-Santander
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.pdbp.android_app
 
 import com.pdbp.android_app.data.*
@@ -10,18 +34,6 @@ import retrofit2.http.*
  * The interface for routes
  */
 interface ApiRestEndPoints {
-
-    //Route to get all personas
-    @GET("persona")
-    suspend fun findPersonas() : Personas
-
-    //Route to get all propiedades
-    @GET("propiedad")
-    suspend fun findPropiedades() : Propiedades
-
-    //Route to get all visitas
-    @GET("registro")
-    suspend fun findVisitas() : Visitas
 
     //Route to store a visita
     @POST("registro")
@@ -53,7 +65,7 @@ interface ApiRestEndPoints {
 
 //Here we obtain de url from the server, to connect to web
 val retrofit = Retrofit.Builder()
-    .baseUrl(" http://192.168.1.85:8000/api/")
+    .baseUrl(" http://192.168.1.82:8000/api/")
     .client(OkHttpClient())
     .addConverterFactory(GsonConverterFactory.create())
     .build()

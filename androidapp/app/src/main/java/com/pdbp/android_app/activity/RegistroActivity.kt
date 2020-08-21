@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Leon-Salas-Santander
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.pdbp.android_app.activity
 
 import android.content.Intent
@@ -16,7 +40,6 @@ import androidx.ui.core.ContextAmbient
 import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
-import androidx.ui.graphics.Color
 import androidx.ui.input.ImeAction
 import androidx.ui.layout.Column
 import androidx.ui.livedata.observeAsState
@@ -29,6 +52,9 @@ import androidx.ui.material.*
 import androidx.ui.savedinstancestate.savedInstanceState
 import androidx.ui.unit.dp
 
+/**
+ * Class Registro Activity
+ */
 class RegistroActivity() : ComponentActivity() {
 
     //ViewModel Template
@@ -57,23 +83,21 @@ class RegistroActivity() : ComponentActivity() {
 
         }
 
-        //Obtenemos los datos llenar los modelos
-        viewModel.getPersonas()
-        viewModel.getPropiedades()
-        viewModel.getVisitas()
-
     }
 
 }
 
+/**
+ * Function that register a Visita
+ */
 @Composable
 fun Registro(viewModel: MainViewModel){
 
-    // Obsevamos si se obtiene la respuesta luego de hacer un registro de visita(la cual es la misma visita)
+    // We see if we obtain a response from the web server
     val registroResponse by viewModel.registroResponse.observeAsState()
     var registroPersonaActivity by savedInstanceState { false }
 
-    // UI que contiene los campos a llenar para el registro de visitas
+    // UI that contains the data from visita
     Column(
             modifier = Modifier.padding(bottom = 15.dp),
             horizontalGravity = Alignment.CenterHorizontally
@@ -84,7 +108,7 @@ fun Registro(viewModel: MainViewModel){
         })
 
 
-        // Declaramos los input como variables dinamicas
+        // Declaring inputs as dinamic variables
         var parentesco by savedInstanceState { "" }
         var empresa_reparto by savedInstanceState { false }
         var persona_rut by savedInstanceState { "" }
@@ -131,18 +155,18 @@ fun Registro(viewModel: MainViewModel){
         )
 
 
-        // Boton el cual hara la peticion del registro y mandara un post al servidor
+        // Button that does the request to the server
         Button(modifier = Modifier.padding(start = 15.dp,top = 15.dp),
                 onClick ={viewModel.registro(parentesco,empresa_reparto,persona_rut,propiedad_numero, LoginActivity.token)}
         ) { Text("Registrar Visita") }
 
-        // Boton para ir a registrar una persona
+        // Button with the purpose of registering a Persona
         Button(
                 modifier = Modifier.padding(start = 15.dp,top = 15.dp),
                 onClick ={ registroPersonaActivity = true }
         ) {Text("Registrar Persona")}
 
-        // Si se obtiene la respuesta al registro, abrimos
+        // If we obtain the response, a pop up shows
         if(registroResponse?.visita != null){
 
             val openDialog = state { true }
@@ -183,7 +207,7 @@ fun Registro(viewModel: MainViewModel){
             abrirRegistroPersona()
         }
 
-        // Si ocurrio un error
+        // If we obtain a error from the requests
         if(registroResponse?.message.equals("Validation Error")){
 
             val openDialog = state { true }
@@ -219,10 +243,13 @@ fun Registro(viewModel: MainViewModel){
 
 }
 
+/**
+ * Function that opens a new activity
+ */
 @Composable
 fun abrirRegistroPersona() {
 
-    // Se obtienen los datos para crear una nueva actividad
+    // Gathering data to open new activity
     val context = ContextAmbient.current
     val intent = Intent(context, RegistroPersonaActivity::class.java)
     ContextCompat.startActivity(context, intent, null)
