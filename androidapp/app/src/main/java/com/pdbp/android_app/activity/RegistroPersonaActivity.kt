@@ -171,9 +171,34 @@ fun RegistroPersona(viewModel: MainViewModel){
         // Si ocurrio un error
         if(personaResponse?.message.equals("Validation Error")){
 
-            personaResponse?.error?.forEach {
-                Text(it)
+            val openDialog = state { true }
+
+            if (openDialog.value) {
+                AlertDialog(
+                        onCloseRequest = {
+                            openDialog.value = false
+                        },
+                        title = {
+                            Text("ERROR")
+                        },
+                        text = {
+                            personaResponse?.error?.forEach {
+                                Text(it)
+                            }
+                        },
+                        confirmButton = {
+                            Button(
+                                    onClick = {
+                                        openDialog.value = false
+                                    }){
+                                Text("Ok")
+                            }
+                        },
+                        buttonLayout = AlertDialogButtonLayout.Stacked
+                )
+
             }
+
         }
 
     }
