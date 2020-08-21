@@ -15,12 +15,14 @@ class MainActivity : AppCompatActivity() {
 
     //Here we call functions to show the Models
     override fun onCreate(savedInstanceState: Bundle?) {
+        
         super.onCreate(savedInstanceState)
 
         // Comenzamos la aplicacion con el login
         startActivity(Intent(this, LoginActivity::class.java))
-    }
+        finish();
 
+    }
 
 }
 

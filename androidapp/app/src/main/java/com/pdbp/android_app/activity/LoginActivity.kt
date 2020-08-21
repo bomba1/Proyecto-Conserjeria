@@ -16,7 +16,6 @@ import androidx.ui.core.ContextAmbient
 import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
-import androidx.ui.graphics.Color
 import androidx.ui.input.ImeAction
 import androidx.ui.input.PasswordVisualTransformation
 import androidx.ui.layout.*
@@ -139,38 +138,44 @@ fun Login(viewModel: MainViewModel) {
             // Guardamos los datos del usuario y su token
             LoginActivity.setLoginData(loginResponse)
             startActivity(context,intent,null)
+
         }
 
         // Si ocurrio un error
         if(!loginResponse?.message.isNullOrBlank()){
+
             val openDialog = state { true }
+
             if (openDialog.value) {
                 AlertDialog(
-                    onCloseRequest = {
-                        openDialog.value = false
-                    },
-                    title = {
-                        Text("ERROR")
-                    },
-                    text = {
-                        loginResponse?.error?.forEach {
-                            Text(it)
-                        }
-                    },
-                    confirmButton = {
-                        Button(
-                            onClick = {
-                                openDialog.value = false
-                            }){
-                            Text("Ok")
-                        }
-                    },
-                    buttonLayout = AlertDialogButtonLayout.Stacked
+                        onCloseRequest = {
+                            openDialog.value = false
+                        },
+                        title = {
+                            Text("ERROR")
+                        },
+                        text = {
+                            loginResponse?.error?.forEach {
+                                Text(it)
+                            }
+                        },
+                        confirmButton = {
+                            Button(
+                                    onClick = {
+                                        openDialog.value = false
+                                    }){
+                                Text("Ok")
+                            }
+                        },
+                        buttonLayout = AlertDialogButtonLayout.Stacked
                 )
+
             }
+
         }
 
     }
+
 }
 
 
