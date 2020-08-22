@@ -40,15 +40,15 @@ Profesor: Mg. Diego Patricio Urrutia Astorga.
   
  # Instrucciones
  
- ###Web  
+ ## Web  
  Ejecutar comandos:
  - php artisan passport:install, para nuevos usuarios registrados  
  - php artisan migrate:fresh --seed, para refrescar los seed  
  - php artisan serve --host $IPV4 --port=8000, para montar el servidor  
  
- ###Android  
+ ## Android  
  Cambiar en el código:  
- - IP en ApiRestEndPoints por la IPV4 obtenida en CMD.
- - IP en network_security_config por la IPV4 obtenida en CMD.
+ - IP en ApiRestEndPoints por la IPV4 obtenida en CMD.  
+ - IP en network_security_config por la IPV4 obtenida en CMD.  
 
  
