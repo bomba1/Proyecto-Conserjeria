@@ -33,3 +33,22 @@ Profesor: Mg. Diego Patricio Urrutia Astorga.
   - PHP v7.4.7.
   - Jetbrains Intellij 2020 2 EAP + PHP Plugin.
   - Laravel v7.2.5.
+- Android:
+  - Android Studio Code.
+  - Jetpack Compose. 
+  - Retrofit.
+  
+ # Instrucciones
+ 
+ ##Web
+ Ejecutar comandos:
+ - php artisan passport:install  
+ - php artisan migrate:fresh --seed  
+ - php artisan serve --host $IPV4 --port=8000
+ 
+ ##Android
+ Cambiar en el código:  
+ - IP en ApiRestEndPoints por la IPV4 obtenida en CMD.
+ - IP en network_security_config por la IPV4 obtenida en CMD.
+
+ 
